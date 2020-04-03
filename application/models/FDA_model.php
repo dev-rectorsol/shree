@@ -22,7 +22,7 @@ class FDA_model extends CI_Model {
 
  public function get_fabric_name()
  {
-   $this->db->select('fabricType,fabricName');
+   $this->db->select('fabricType,fabricName,fabricCode');
    $this->db->from('fabric');
    $query = $this->db->get();
    $query = $query->result_array();
@@ -37,12 +37,12 @@ class FDA_model extends CI_Model {
    $query = $query->result_array();
    return $query;
  }
- public function get_fda_data($fabric_id)
+ public function get_fda_data($fab_id)
  {
    $this->db->select('*');
    $this->db->from('fda_table');
-   $this->db->join('design ','design.id = fda_table.design_id','INNER');
-   $this->db->where('fabric_id',$fabric_id);
+   $this->db->join('design ','design.id = fda_table.design_id','inner');
+   $this->db->where('fabric_id',$fab_id);
    $query = $this->db->get();
    //echo $this->db->last_query();exit;
    $query = $query->result_array();
@@ -74,7 +74,7 @@ class FDA_model extends CI_Model {
  public function delete($id)
  {
    $this->db->where('id', $id);
-     $this->db->delete('fabric');
+     $this->db->delete('fda_table');
  }
  public function search($searchByCat,$searchValue)
  {
