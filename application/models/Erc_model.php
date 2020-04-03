@@ -22,7 +22,8 @@ class Erc_model extends CI_Model {
  public function get_design()
  {
    $this->db->select('id,desName,desCode,rate');
-   $this->db->from('erc');$this->db->order_by('id','desc');
+   $this->db->from('erc');
+    //$this->db->order_by('desName','ASC');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
@@ -71,12 +72,13 @@ public function get_design_name()
    $this->db->from('erc');
    $this->db->where('desName', $designName);
    $query = $this->db->get();
+  //  echo $this->db->last_query();exit;
    if($query->num_rows()>=1) {
             return true;
         }else{
             return false;
         }
-   //echo $this->db->last_query();exit;
+
 
  }
 

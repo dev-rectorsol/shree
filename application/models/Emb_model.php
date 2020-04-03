@@ -22,7 +22,8 @@ class Emb_model extends CI_Model {
  public function get_emb()
  {
    $this->db->select('id,designName,workerName,rate,created_date');
-   $this->db->from('emb');$this->db->order_by('id','desc');
+   $this->db->from('emb');
+   $this->db->order_by('id','asc');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
