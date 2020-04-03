@@ -3,20 +3,22 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
-        $("#table tr").click(function(){
+        $("#table ").click(function(){
            $(this).toggleClass('selected');
            var value=$(this).find('td:first').html();
-          // alert(value);
+            //console.log(value);
         });
 
 $('.Asign').on('click', function(e){
     var selected = [];
-    $("#table tr.selected").each(function(){
+    $("#table ").each(function(){
       selected.push($('td:first', this).html());
      var value=window.value;
-     // alert (value);
+      //console.log(value);
     });
-
+    if(selected == ""){
+      alert("Nothing to Assign")
+    }
 
     var csrf_name = $("#get_csrf_hash").attr('name');
     var csrf_val = $("#get_csrf_hash").val();
@@ -26,9 +28,10 @@ $('.Asign').on('click', function(e){
       data: {'selected' : selected, 'value':value,'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php  echo $this->security->get_csrf_hash(); ?>'},
       datatype: 'json',
       success: function(data){
-         
-        //   window.location.reload();
-        //   location.reload();
+          alert("Inserted")
+          // console.log(data);
+          // window.location.reload();
+          // location.reload();
       // $("#show").html(data);
       // $(".chk").click(function() {
       //   console.log('1');

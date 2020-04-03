@@ -42,5 +42,5 @@
                    </div>
                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                    <!-- <input type="button" value="Asign" class="btn btn-primary" class="Asign"> -->
-                   <input type="submit" name="OK" class="btn btn-primary Asign" value="Asign" id="button"/>
+                   <input type="submit" name="OK" class="btn btn-primary Asign" value="Assign" id="Asign"/>
                    <?php include('asign_js.php'); ?>

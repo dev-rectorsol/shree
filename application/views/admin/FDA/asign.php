@@ -55,36 +55,24 @@
           <div class="col-sm-12">
 
            <!-- accoridan part -->
-            <?php foreach($fabric_name as $value) :?>
-                  <div class="accordion" id="accordion<?php echo $value['id'] ?>">
-                    <div class="card m-b-0">
-                        <div class="card-header" id="headingOne">
-                          <h5 class="mb-0">
-                            <a data-toggle="collapse" id="fda_value" data-target="#value<?php echo $value['id'];?>" aria-expanded="true" aria-controls="collapseOne">
-                                <i class="fa fa-list" aria-hidden="true"></i>
-                                <span id="<?php echo $value['fabric_id'];?>"><?php echo $value['fabric_id'];?></span>
-                            </a>
-                          </h5>
-                        </div>
-                        <div id="value<?php echo $value['id'];?>" class="collapse" aria-labelledby="headingOne" data-parent="#accordion<?php echo $value['id'] ?>">
-                          <div class="card-body">
-                            <div class="col-md-12 bg-white content_body">
-
-                            </div>
-                          </div>
-                        </div>
-
-                    </div>
-                  </div>
-                 <?php endforeach;?>
-
-
-                <!-- toggle part -->
-
-           </div>
-
+                   <div class="list-group">
+            <?php $i=1;
+  foreach ($fabric_data as $value) { ?>
+            <a href="<?php echo base_url('admin/fda/get_fda_details/').$value['fabricType'] ?> "class="list-group-item list-group-item-action">
+             <Div class="float-left">
+            <Div class="container"><b>S.no :-</b><?php echo $i ?></Div>
+            <Div class="container"><b>Fabric name :-</b><?php echo $value['fabricName'] ?></Div>
+            </Div>
+            <Div class="float-right"> <Div><b>Fabric type :-</b><?php echo $value['fabricType'] ?></Div>
+            <Div><b>Fabric Code :-</b><?php echo $value['fabricCode'] ?></Div>
+           </Div>
+           
+            </a>
+            <?php $i++;
+}?>
           </div>
-       </div>
+
+  
     </div>
 
   </div>
@@ -103,4 +91,5 @@ td { padding: 5px; cursor: pointer;}
 
 
 </style>
+
 <?php include('asign_js.php'); ?>

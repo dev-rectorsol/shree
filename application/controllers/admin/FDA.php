@@ -19,7 +19,7 @@
 	        $data = array();
 	        $data['name']='Fabric Design Asign';
 	        $data['fabric_data']=$this->FDA_model->get_fabric_name();
-					// $data['fda_data']=$this->FDA_model->get_fda_data();
+					
 					$data['fabric_name']=$this->FDA_model->get_fda_fabric_name();
 	        //echo print_r($data['fabric_data']);exit;
 		      $data['main_content'] = $this->load->view('admin/FDA/asign', $data, TRUE);
@@ -32,14 +32,12 @@
             $this->Fabric_model->delete($id);
             redirect(base_url('admin/Fabric'));
         }
-
-				public function deletefabric(){
-					$ids = $this->input->post('ids');
-					$userid= explode(",", $ids);
-					foreach ($userid as $value) {
-					$this->db->delete('fabric', array('id' => $value));
-					}
-				}
+  public function delete_fda($id)
+        {
+            $this->FDA_model->delete($id);
+            redirect(base_url('admin/Fabric'));
+        }
+				
 
 			public function get_fabric_name_value()
 				{
@@ -47,19 +45,22 @@
 							$data=array();
 							$data['fabric_data']=$this->FDA_model->get_fabric_name();
 							$data['data_value'] = $this->FDA_model->get_design_details($_POST['fabricType']);
+							//  
 							$data['data'] = $this->load->view('admin/FDA/asign_page', $data, TRUE);
 		  	      $this->load->view('admin/FDA/index', $data);
 				       }
 		  	}
-							public function get_fda_details()
+							public function get_fda_details($fab_type)
 								{
-										if ($_POST) {
+										
 											$data=array();
-											$data['fda_data']=$this->FDA_model->get_fda_data($_POST['fabric_id']);
+											$data['name']='Fabric Design List';
+											$data['fabric_data']=$this->FDA_model->get_fabric_name();
+											$data['fda_data']=$this->FDA_model->get_fda_data($fab_type);
 										//	echo print_r($data['fda_data']);exit;
-											$data['data'] = $this->load->view('admin/FDA/a', $data, TRUE);
- 					   	        $this->load->view('admin/FDA/fda_details', $data);
-								       }
+											$data['main_content'] = $this->load->view('admin/FDA/fda_list', $data, TRUE);
+ 					   	        $this->load->view('admin/index', $data);
+								    
 						  	}
 
 
@@ -68,6 +69,7 @@
 				          {
 						if ($_POST) {
 							$data=array();
+							
 							// $data['fabric_data']=$this->FDA_model->get_fabric_name();
 							$data['data_value'] = $_POST['selected'];
 							$design_value=$_POST['selected'];
