@@ -74,15 +74,15 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost;dbname=mcfojotc_sareeerpdb',
- //	'dsn'	=> 'mysql:host=localhost;dbname=shree',
-	//'hostname' => "localhost",
+	// 'dsn'	=> 'mysql:host=localhost;dbname=mcfojotc_sareeerpdb',
+ 	'dsn'	=> 'mysql:host=localhost;dbname=shree',
+	'hostname' => "localhost",
 	//'username' => 'mcfojotc_sareeerpur',
 	//'password' => 'O$BkA3GRMSrn',
 	'database' => 'mcfojotc_sareeerpdb',
  	'username' => "root",
  	'password' => "",
- 	//'database' => "shree",
+ 	'database' => "shree",
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

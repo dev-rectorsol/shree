@@ -30,6 +30,7 @@
 
 <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/magnific-popup/meg.init.js"></script>
+<script src="<?php echo base_url('optimum/admin') ?>/assets/libs/toastr/build/toastr.min.js"></script>
 
 <?php include('js.php'); ?>
 

@@ -22,7 +22,7 @@ class FDA_model extends CI_Model {
 
  public function get_fabric_name()
  {
-   $this->db->select('fabricType,fabricName,fabricCode');
+   $this->db->select('id ,fabricType, fabricName, fabricCode');
    $this->db->from('fabric');
    $query = $this->db->get();
    $query = $query->result_array();
@@ -31,20 +31,29 @@ class FDA_model extends CI_Model {
  public function get_fda_fabric_name()
  {
    $this->db->select('*');
-   $this->db->group_by('fabric_id');
+   $this->db->group_by('fabric_name');
    $this->db->from('fda_table');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
  }
- public function get_fda_data($fab_id)
+ public function get_fda_data($fabric_name)
  {
-   $this->db->select('*');
+   $this->db->select('fda_table.id AS id, fda_table.asign_date, fda_table.fabric_name AS fabric_name, fda_table.fabric_type, design.designName, design.designSeries, design.designCode');
    $this->db->from('fda_table');
    $this->db->join('design ','design.id = fda_table.design_id','inner');
-   $this->db->where('fabric_id',$fab_id);
+   $this->db->where('fabric_name', $fabric_name);
    $query = $this->db->get();
-   //echo $this->db->last_query();exit;
+   $query = $query->result_array();
+   return $query;
+ }
+
+ public function get_fda_group_list()
+ {
+   $this->db->select('id,  count(design_id) AS dcount, fabric_name, fabric_type, asign_date');
+   $this->db->from('fda_table');
+   $this->db->group_by('fabric_name');
+   $query = $this->db->get();
    $query = $query->result_array();
    return $query;
  }
@@ -52,15 +61,9 @@ class FDA_model extends CI_Model {
 
  public function get_design_details($fabricType)
   {
-    // echo $fabricType;exit;
-    $this->db->select('*');
-    $this->db->from('design');
-    $this->db->where('designOn',$fabricType);
-    $this->db->where('details_status',1);
-    $query = $this->db->get();
-    // echo $this->db->last_query();
+    $sql = 'SELECT * FROM design WHERE designOn = "'.$fabricType.'" AND id NOT IN (SELECT design_id FROM fda_table WHERE fabric_type = "'.$fabricType.'")';
+    $query = $this->db->query($sql);
     $query = $query->result_array();
-
     return $query;
   }
  public function edit($id,$data)
@@ -87,7 +90,7 @@ class FDA_model extends CI_Model {
    // print_r($this->db->last_query());
 
  }
- 
+
 
 
 

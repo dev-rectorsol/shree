@@ -2,16 +2,13 @@
 
 
                     <div>
-                    <h4>Apply FDA:</h4>
+                    <form >
+                    <h4>Apply FDA: <?php echo $fabric_type; ?></h4>
+                    <input type="hidden" name="fabric_type" value="<?php echo $fabric_type; ?>">
+                    <input type="hidden" name="fabric_name" value="<?php echo $fabric_name; ?>">
                     </div>
-                      <?php
-                   if($this->session->flashdata('success'))
-                   {
-                   echo $this->session->flashdata('success');
-                   }
-                   ?>
                    <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="table">
+                    <table class="table table-bordered" id="table" id="fabric">
                         <thead>
                           <tr class="odd" role="row">
 
@@ -25,8 +22,7 @@
                         </thead>
                       <tbody>
                         <?php $id=0; foreach($data_value as $value): $id++;?>
-                        <tr>
-                          <tr class="gradeU" id="tr_<?php echo $value['id']?>">
+                        <tr class="gradeU" id="tr_<?php echo $value['id']?>">
 
                           <td style="display:none;" class="ui-widget-content"><?php echo $value['id']?></td>
                           <td><?php echo  $id;?></td>
@@ -42,5 +38,6 @@
                    </div>
                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
                    <!-- <input type="button" value="Asign" class="btn btn-primary" class="Asign"> -->
-                   <input type="submit" name="OK" class="btn btn-primary Asign" value="Assign" id="Asign"/>
+                   <input type="submit" name="OK" class="btn btn-primary" value="Assign" id="asign"/>
+                   </form>
                    <?php include('asign_js.php'); ?>
