@@ -172,6 +172,7 @@
           </li>
           <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Order</span></a>
             <ul aria-expanded="false" class="collapse  first-level">
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/dashboard'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Dashboard </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Show Order </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/addOrders'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Order </span></a></li>
             </ul>

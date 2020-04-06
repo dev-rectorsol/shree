@@ -21,7 +21,16 @@ public function __construct(){
       $data['main_content'] = $this->load->view('admin/order/order', $data, TRUE);
       $this->load->view('admin/index', $data);
   }
-
+ public function dashboard()
+  {
+      $data = array();
+      $data['name'] = 'Orders';
+      $data['Order_count'] = $this->Orders_model->get_order_count();
+      $data['Complete'] = $this->Orders_model->get_order_complete();
+       $data['pending'] = $this->Orders_model->get_order_pending();
+      $data['main_content'] = $this->load->view('admin/order/dashboard', $data, TRUE);
+      $this->load->view('admin/index', $data);
+  }
   public function add_new_order() {
     if($_POST)
   	{
@@ -31,7 +40,8 @@ public function __construct(){
         'session' => $_POST['session'],
         'data_category' =>$_POST['category'],
         'order_type' => $_POST['order_type'],
-  			'order_date'=>date('Y-m-d')
+        'order_date'=>date('Y-m-d'),
+        'status'=> 1
   		);
   		$order_number =	$this->Orders_model->insert($data, 'order_table');
   		if ($order_number) {
@@ -52,7 +62,8 @@ public function __construct(){
   							'hsn'=> $_POST['hsn'][$i],
   							'stitch'=> $_POST['stitch'][$i],
   							'dye'=> $_POST['dye'][$i],
-  							'matching'=> $_POST['matching'][$i]
+                'matching'=> $_POST['matching'][$i],
+                'status'=> 1
   						);
               $this->Orders_model->insert($data,'order_product');
           }
@@ -120,7 +131,8 @@ public function __construct(){
           'session' => $_POST['session'],
           'data_category' =>$_POST['category'],
           'order_type' => $_POST['order_type'],
-    			'order_date'=>date('Y-m-d')
+          'order_date'=>date('Y-m-d'),
+          'status'=> 1
     		);
     		$order_number =	$this->Orders_model->insert($data, 'order_table');
     		if ($order_number) {
@@ -139,7 +151,8 @@ public function __construct(){
     							'hsn'=> $_POST['hsn'][$i],
     							'stitch'=> $_POST['stitch'][$i],
     							'dye'=> $_POST['dye'][$i],
-    							'matching'=> $_POST['matching'][$i]
+                  'matching'=> $_POST['matching'][$i],
+                  'status'=> 1
     						);
                 $this->Orders_model->insert($data,'order_product');
             }
