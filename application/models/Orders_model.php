@@ -31,6 +31,48 @@ public function get_design_name()
    $query = $query->result_array();
    return $query;
  }
+ public function get_order_complete()
+ {
+
+   $this->db->select('*');
+   $this->db->from('order_product');
+   $this->db->where('status', 0);
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order_pending()
+ {
+
+   $this->db->select('*');
+   $this->db->from('order_product');
+   $this->db->where('status', 1);
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order_count()
+ {
+
+        $this->db->select('count(*) as total');
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = 1)
+                            )
+                            AS pending',TRUE);
+
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = 0)
+                            )
+                            AS complete',TRUE);
+
+         $this->db->from('order_product');
+   
+   $query = $this->db->get();
+  
+   return $query->result_array();
+ }
   public function checkorder($order){
 
         $this->db->select('*');
