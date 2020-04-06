@@ -45,7 +45,7 @@
 							$data=array();
 							$data['fabric_type']=$_POST['fabricType'];
 							$data['fabric_name']=$_POST['fabricName'];
-							$data['data_value'] = $this->FDA_model->get_design_details($_POST['fabricType']);
+							$data['data_value'] = $this->FDA_model->get_design_details($_POST['fabricType'], $data['fabric_name']);
 							//
 							$data['data'] = $this->load->view('admin/FDA/asign_page', $data, TRUE);
 		  	      $this->load->view('admin/FDA/index', $data);

@@ -89,14 +89,10 @@
                       <label class="control-label col-sm-3">Select Department</label>
                       <div class="col-sm-9">
                         <select name="deptName" class="form-control" required="">
-                          <option value="Dept 1">Dept 1</option>
-                          <option value="Dept 2">Dept 2</option>
-                          <option value="Dept 3">Dept 3</option>
-                          <option value="Dept 4">Dept 4</option>
-                          <option value="Dept 5">Dept 5</option>
-                          <option value="Dept 6">Dept 6</option>
-                          <option value="Dept 7">Dept 7</option>
-                          <option value="Dept 8">Dept 8</option>
+                          <?php foreach ($department as $rec): ?>
+                            <option <?php if ($value->deptName==$rec->deptName) {
+                            ?>selected<?php } ?>  value="<?php echo $rec->deptName ?>"><?php echo $rec->deptName ?></option>
+                          <?php endforeach;?>
                         </select>
                       </div>
                     </div>
@@ -134,7 +130,7 @@
     <div class="modal-content">
   <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Sub_department/addSubDept') ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
   <div class="modal-header">
-      <h5 class="modal-title">Add Sub Department</h5>
+      <h5 class="modal-title">Add Warehouse</h5>
     <button data-dismiss="modal" class="close" type="button">×</button>
 
   </div>
@@ -145,14 +141,10 @@
         <label class="control-label col-sm-3">Select Department</label>
         <div class="col-sm-9">
           <select name="deptName" class="form-control" required="">
-            <option value="Dept 1">Dept 1</option>
-            <option value="Dept 2">Dept 2</option>
-            <option value="Dept 3">Dept 3</option>
-            <option value="Dept 4">Dept 4</option>
-            <option value="Dept 5">Dept 5</option>
-            <option value="Dept 6">Dept 6</option>
-            <option value="Dept 7">Dept 7</option>
-            <option value="Dept 8">Dept 8</option>
+            <?php foreach ($department as $rec): ?>
+              <option <?php if ($value->deptName==$rec->deptName) {
+              ?>selected<?php } ?>  value="<?php echo $rec->deptName ?>"><?php echo $rec->deptName ?></option>
+            <?php endforeach;?>
           </select>
         </div>
       </div>

@@ -24,21 +24,17 @@ class SRC extends CI_Controller {
 	}
 	public function getlist()
     {
-
 		$febName = $this->Src_model->get_fabric();
 		foreach ($febName as $key => $value) {
 			$data[]= $value;
 		}
 		header('Content-type: application/json');
 		echo json_encode($data);
-
-
 	}
+
 	public function getfabricName()
     {
-
 		$febName = $this->Src_model->get_fabric_name();
-
        foreach($febName as $row ) {
 
         foreach($row as $value){
@@ -88,7 +84,7 @@ public function update()
 		if(isset($_POST['fcode'])){
 			$data = array();
 			$data['fabCode'] =$_POST['fcode'];
-		    $data['updated_at'] = date('Y-m-d H:i:s');
+		  $data['updated_at'] = date('Y-m-d H:i:s');
 			$data['created_at'] = date('Y-m-d H:i:s');
 			$status = $this->Src_model->Update($id,$data);
 		}
@@ -103,7 +99,8 @@ public function update()
 		    $data['fabName']=$this->Src_model->get_fab_name_value('src');
 		  //  echo print_r( $data['fabName']);exit;
 		    $fabName=$data['fabName']->fabName;
-		    //echo $fabName;exit;
+				$fabCode=$data['fabName']->fabCode;
+		   // echo $fabCode;exit;
 
 			if(isset($_POST['purchase'])){
 			$data = array();
@@ -123,8 +120,7 @@ public function update()
 		if(isset($_POST['srate'])){
 			$data = array();
 			$data['saleRate'] =$_POST['srate'];
-
-		    $status = $this->Src_model->Update_design($fabName,$data);
+		  $status = $this->Src_model->Update_design($fabName,$fabCode,$data);
 		}
 		if($status=='true'){
 			echo "success";

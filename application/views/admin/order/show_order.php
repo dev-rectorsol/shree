@@ -44,7 +44,7 @@
                                 <tbody>
                                   <?php
                                         $id=1;
-                                        foreach ($all_Order_list as $value) { ?>
+                                        foreach ($order_data as $value) { ?>
                                         <tr class="gradeU" id="tr_<?php echo $value['product_order_id']?>">
 
                                           <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['product_order_id'] ?>"></td>
@@ -65,15 +65,12 @@
                                           <td><?php echo $value['unit']?></td>
                                           <td><?php echo $value['priority']?></td>
                                           <td>
-                                            <a href="<?php echo '#'.$value['product_order_id']; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
-                                            <i class="fas fa-edit blue"></i>
-                                            </a>
+                                           
 
                                             <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value['product_order_id'];?>)" data-original-title="Delete">
                                               <i class="mdi mdi-delete red"></i>
                                             </a>
-                                           <a class="text-center tip" target="_blank" href="<?php echo base_url('admin/design/design_print/').$value['product_order_id'] ?>">
-                                           <i class="fa fa-print" aria-hidden="true"></i></a>
+                                         
                                           </td>
                                         </tr>
 

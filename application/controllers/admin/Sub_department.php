@@ -15,8 +15,10 @@
 
     	public function index(){
 	        $data = array();
-			$data['name']='Sub Department';
+		    	$data['name']='Sub Department';
 	        $data['sub_dept_data']=$this->Sub_department_model->get();
+					$data['department'] = $this->Sub_department_model->department_name();
+				//	echo print_r($data['department']);exit;
 	        $data['main_content'] = $this->load->view('admin/master/sub_department/sub_department', $data, TRUE);
 	        $this->load->view('admin/index', $data);
     	}
@@ -51,7 +53,7 @@
         }
 				public function deletesub_department(){
 					$ids = $this->input->post('ids');
-				
+
 					 $userid= explode(",", $ids);
 					 foreach ($userid as $value) {
 							$this->db->delete('sub_department', array('id' => $value));
@@ -70,10 +72,10 @@
                                 // echo print_r($value);exit;
                     $output .= "<tr id='tr_".$value['id']."'>";
                      $output .="<td><input type='checkbox' class='sub_chk' data-id=".$value['id']."></td>";
-                     
+
                     foreach ($value as $temp) {
-                        
-                       
+
+
                         $output .= "<td>".$temp."</td>";
                      }
                      $output .= "<td><a href='#".$value['id']."' class='text-center tip' data-toggle='modal' data-original-title='Edit'><i class='fas fa-edit blue'></i></a>

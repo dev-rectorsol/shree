@@ -85,16 +85,13 @@
                         <td><?php echo $id ?></td>
                         <td><?php echo $value->designName;?></td>
                         <td><?php echo $value->designSeries;?></td>
-                        <td><?php echo $value->designCode?></td>
+                        <td><?php echo $value->desCode?></td>
                         <td><?php echo $value->rate?></td>
                         <td><?php echo $value->stitch?></td>
                         <td><?php echo $value->dye?></td>
                         <td width="40%"><?php echo $value->matching?></td>
-                        <td><?php echo $value->saleRate?></td>
+                        <td><?php echo $value->sale_rate?></td>
                         <td><?php echo $value->htCattingRate?></td>
-
-
-
                         <td>
                           <div class="actions">
                           <a class="btn default btn-outline image-popup-vertical-fit el-link" href="<?php echo base_url('/upload/')?><?php echo $value->designPic; ?>"> <img src="<?php echo base_url('/upload/')?><?php echo $value->designPic; ?>" alt="image" style="height: 40px; width: 40px;">

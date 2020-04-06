@@ -27,7 +27,7 @@
                           <td style="display:none;" class="ui-widget-content"><?php echo $value['id']?></td>
                           <td><?php echo  $id;?></td>
                           <td><?php echo $value['designName'];?></td>
-                          <td><?php echo $value['designCode']?></td>
+                          <td><?php echo $value['desCode']?></td>
                           <td><?php echo $value['stitch'] ?></td>
                           <td><?php echo $value['dye'] ?></td>
                           <td><?php echo $value['designOn']?></td>

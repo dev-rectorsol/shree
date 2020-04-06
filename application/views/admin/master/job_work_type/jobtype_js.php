@@ -76,17 +76,20 @@ jQuery('#master').on('click', function(e){
  //                });
 
  var i=1;
- $('#add_fresh').click(function(){
+ // $('#add_fresh').click(function(){
+ //
+ //      i++;
+ //
+ //      $('#fresh_field').append('<row id="row'+i+'" class="row"><input type="hidden" name="count[]" value="'+Math.floor((Math.random() * 10000) + 1)+'">   <div class="col-md-3"> <label>Job</label>  <input type="text" class="form-control" name="job[]" value=""></div> <div class="col-md-4"> <label>Rate</label>  <input type="text" class="form-control" name="rate[]" value=""></div><div class="col-md-3"><label>Choose Unit</label><select Name="unit[]"><option value="pcs">pcs</option><option value="mtrs">mtrs</option></select></div>  <div class="col-md-2"><br>&nbsp;&nbsp;<button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div></div><div class="row"><div class="col-md-12"> <label></label><div></div><br><br><br>');
+ //
+ // });
 
-      i++;
-
-      $('#fresh_field').append('<row id="row'+i+'" class="row"><input type="hidden" name="count[]" value="'+Math.floor((Math.random() * 10000) + 1)+'">   <div class="col-md-3"> <label>Job</label>  <input type="text" class="form-control" name="job[]" value=""></div> <div class="col-md-4"> <label>Rate</label>  <input type="text" class="form-control" name="rate[]" value=""></div><div class="col-md-3"><label>Choose Unit</label><select Name="unit[]"><option value="pcs">pcs</option><option value="mtrs">mtrs</option></select></div>  <div class="col-md-2"><br>&nbsp;&nbsp;<button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div></div><div class="row"><div class="col-md-12"> <label></label><div></div><br><br><br>');
-
- });
-
+$('#add_fresh').click(function(){
+  var rowobj = $("#addNewRow").html();
+  $('#fresh_field').append(rowobj);
+});
  $(document).on('click', '.btn_remove', function(){
-      var button_id = $(this).attr("id");
-      $('#row'+button_id+'').remove();
+      $(this).parent().parent().remove();
  });
 
  $( "#order_id" ).autocomplete({

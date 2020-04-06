@@ -17,13 +17,13 @@
 
 
     	public function index(){
-	        $data = array();
-			$data['name']=' Design';
-	        $data['design_data']=$this->Design_model->get();
-            $data['febName']=$this->common_model->febric_name();
-            $data['febType']=$this->common_model->febric_type();
-			$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
-			$this->load->view('admin/index', $data);
+				$data = array();
+				$data['name']=' Design';
+				$data['design_data']=$this->Design_model->get();
+				$data['febName']=$this->common_model->febric_name();
+				$data['febType']=$this->common_model->febric_type();
+				$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
+				$this->load->view('admin/index', $data);
     	}
 
     	public function fabricOn(){

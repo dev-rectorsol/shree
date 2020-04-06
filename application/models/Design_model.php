@@ -10,7 +10,11 @@ class Design_model extends CI_Model {
 	}
 	public function get()
 	{
-		$rec=$this->db->get('design');
+    $sql = 'SELECT design.id, design.designName, design.designSeries, erc.desCode, erc.rate, design.stitch, design.dye, design.matching, src.sale_rate, design.htCattingRate, design.designPic, design.fabricName, design.barCode, design.designOn FROM design
+            LEFT JOIN erc ON design.designName = erc.desName
+            LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
+            ORDER BY design.id DESC';
+		$rec=$this->db->query($sql);
 		return $rec->result();
 
 	}

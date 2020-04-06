@@ -105,18 +105,23 @@
                           <div class="form-group row">
                             <label class="control-label col-sm-3">User ID</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" name="userId" value="<?php echo $value->userId ?>">
+                              <select name="userId" class="form-control">
+                              <?php foreach ($user as $rec): ?>
+                                <option <?php if ($value->userId==$rec->first_name) {
+                                ?>selected<?php } ?>  value="<?php echo $rec->first_name ?>"><?php echo $rec->first_name ?></option>
+                              <?php endforeach;?>
+                              </select>
                             </div>
                           </div>
                           <div class="form-group row">
                             <label class="control-label col-sm-3">Email</label>
                             <div class="col-sm-9">
-                              <input type="email" clss="form-control" name="email" value="<?php echo $value->email ?>">
+                              <input type="email" class="form-control" name="email" value="<?php echo $value->email ?>">
                             </div>
                           </div>
                           <div class="form-group row">
                             <label class="control-label col-sm-3">Contact Number</label>
-                            <div class="con-sm-9">
+                            <div class="col-sm-9">
                               <input type="number" class="form-control" name="phone_no" value="<?php echo $value->phone_no ?>">
                             </div>
                           </div>

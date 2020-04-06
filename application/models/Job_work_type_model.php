@@ -15,13 +15,15 @@ class Job_work_type_model extends CI_Model {
  	}
 	public function get()
 	{
+    $sql = 'SELECT jobtypeconstant.id AS id, job_work_type.type type, jobtypeconstant.job job,  jobtypeconstant.rate rate, unit.unitSymbol unit FROM job_work_type
+            JOIN jobtypeconstant ON job_work_type.id=jobtypeconstant.jobId
+            JOIN unit ON jobtypeconstant.unit = unit.id
+            ORDER BY job_work_type.id DESC';
 
-		$this->db->join("jobtypeconstant",'job_work_type.id=jobtypeconstant.jobId');
-		$this->db->order_by('job_work_type.id','desc');
-		$rec=$this->db->get('job_work_type');
+		$rec=$this->db->query($sql);
+    // echo $this->db->last_query();exit;
 		return $rec->result();
-
-    }
+  }
     public function getType()
 	{
         $this->db->select('distinct(type)');

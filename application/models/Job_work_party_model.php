@@ -5,7 +5,7 @@ class Job_work_party_model extends CI_Model {
 
 	public function add($data)
 	{
-		$this->db->insert('job_work_party', $data);	
+		$this->db->insert('job_work_party', $data);
 	}
 	public function get()
 	{
@@ -15,10 +15,17 @@ class Job_work_party_model extends CI_Model {
 	}
 		public function job_work_name()
 	{
-		$this->db->select('DISTINCT(type)');
-		$rec=$this->db->get('job_work_type');
+		$this->db->select('id, type');
+     $rec=$this->db->get('job_work_type');
 		return $rec->result();
 	}
+  // public function subDept()
+  // {
+  //   $this->db->select('subDeptName');
+  //   $rec=$this->db->get('sub_department');
+  //   return $rec->result();
+  // }
+
 	public function edit($id,$data)
 	{
 		// print_r($data);
@@ -41,9 +48,9 @@ class Job_work_party_model extends CI_Model {
 		return $rec->result_array();
 		// print_r($searchValue);
 		// print_r($this->db->last_query());
-		
+
 	}
-	
+
 
 }
 

@@ -21,7 +21,7 @@
           $data['dept_name']=$this->common_model->department();
           $data['subDept_name']=$this->common_model->subDept();
           $data['job_type_name']=$this->Job_work_party_model->job_work_name();
-	      $data['main_content'] = $this->load->view('admin/master/jobwork/jobwork', $data, TRUE);
+	        $data['main_content'] = $this->load->view('admin/master/jobwork/jobwork', $data, TRUE);
 					$this->load->view('admin/index', $data);
     	}
 

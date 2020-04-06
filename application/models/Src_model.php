@@ -37,15 +37,17 @@ public function Update_fabric($fabName,$data)
    //echo $this->db->last_query();exit;
    return true;
  }
- public function Update_design($fabName,$data)
+ public function Update_design($fabName,$fabCode,$data)
  {
     // print_r($designName);
     // print_r($data);exit;
    $this->db->where('fabricName', $fabName);
+   $this->db->where('designCode', $fabCode);
    $this->db->update('design', $data);
    //echo $this->db->last_query();exit;
    return true;
  }
+
  public function get_fabric_fresh_value()
  {
    $this->db->select('*');
@@ -76,7 +78,8 @@ public function Update_fabric($fabName,$data)
  public function get_fabric()
  {
    $this->db->select('id,fabName,purchase,fabCode,sale_rate');
-   $this->db->from('src');$this->db->order_by('id','desc');
+   $this->db->from('src');
+   // $this->db->order_by('id','asc');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
@@ -99,7 +102,7 @@ public function get_Erc_Code()
  }
 public function get_fab_name_value()
  {
-   $this->db->select('fabName');
+   $this->db->select('fabName,fabCode');
    $this->db->from('src');
    $this->db->order_by('updated_at','desc');
    $query = $this->db->get();

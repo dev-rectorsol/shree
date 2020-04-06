@@ -69,6 +69,7 @@ $(document).ready(function() {
                     return false;
                   }else{
                     $("[data-y="+y+"]").css('background', '#fff');
+
                     if(x==1){
                         dat={
                           designName: value,
@@ -80,8 +81,6 @@ $(document).ready(function() {
                           type: "POST",
                           data:dat,
                           success: function(dataResult){
-
-                          console.log(dataResult);
                           }
                         });
                     }

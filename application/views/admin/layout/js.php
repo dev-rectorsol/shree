@@ -2,12 +2,15 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
-    $('table').DataTable();
+    // Apply Data Table
+     $('table').DataTable();
+
+     // use Class to remove datatable
+     $('.remove_datatable').DataTable().destroy();
 
     $("#filter").on("submit", function(event) {
       event.preventDefault();
       var form = $(this).serialize();
-      console.log(form);
       $.ajax({
         'url': "<?php echo base_url('/admin/Branch_detail/filter'); ?>",
         'type': 'POST',
@@ -21,7 +24,6 @@
     $("#CustomerFilter").on("submit", function(event) {
       event.preventDefault();
       var form = $(this).serialize();
-      console.log(form);
       $.ajax({
         'url': "<?php echo base_url('/admin/Customer_detail/filter'); ?>",
         'type': 'POST',
@@ -215,4 +217,3 @@
     document.gomenu.selector.selectedIndex = 2;
   }
 </script>
-

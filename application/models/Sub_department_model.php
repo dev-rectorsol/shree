@@ -5,7 +5,7 @@ class Sub_department_model extends CI_Model {
 
 	public function add($data)
 	{
-		$this->db->insert('sub_department', $data);	
+		$this->db->insert('sub_department', $data);
 	}
 	public function get()
 	{
@@ -13,6 +13,12 @@ class Sub_department_model extends CI_Model {
 		return $rec->result();
 
 	}
+  public function department_name()
+  {
+    $this->db->select('deptName');
+    $rec=$this->db->get('department');
+    return $rec->result();
+  }
 	public function edit($id,$data)
 	{
 		// print_r($data);
@@ -35,9 +41,9 @@ class Sub_department_model extends CI_Model {
 		return $rec->result_array();
 		// print_r($searchValue);
 		// print_r($this->db->last_query());
-		
+
 	}
-	
+
 
 }
 

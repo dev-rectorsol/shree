@@ -5,7 +5,7 @@ class Unit_model extends CI_Model {
 
 	public function add($data)
 	{
-		$this->db->insert('unit', $data);	
+		$this->db->insert('unit', $data);
 	}
 	public function get()
 	{
@@ -35,9 +35,16 @@ class Unit_model extends CI_Model {
 		return $rec->result_array();
 		// print_r($searchValue);
 		// print_r($this->db->last_query());
-		
+
 	}
-	
+
+  public function getUnits(){
+    $this->db->select('id ,unitSymbol');
+		$this->db->from('unit');
+		$rec = $this->db->get();
+		return $rec->result();
+  }
+
 
 }
 

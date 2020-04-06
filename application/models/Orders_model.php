@@ -12,7 +12,64 @@
 			return $rec->result();
 
 		}
+public function get_design_name()
+ {
+   $this->db->select('distinct(designName)');
+   $this->db->from('design');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order($order_id)
+ {
 
+   $this->db->select('*');
+   $this->db->from('order_table');
+   $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
+   $this->db->where('order_table.order_id', $order_id);
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+  public function checkorder($order){
+
+        $this->db->select('*');
+
+        $this->db->from('order_table');
+
+        $this->db->where('order_number', $order);
+
+        $this->db->limit(1);
+
+        $query = $this->db->get();
+
+        if($query->num_rows() == 1) {
+
+            return $query->result();
+
+        }else{
+
+            return false;
+
+        }
+
+    }
+ public function get_design_code()
+ {
+   $this->db->select('distinct(designCode)');
+   $this->db->from('design');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_unit()
+ {
+   $this->db->select('distinct(unitName)');
+   $this->db->from('unit');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
        public function OrdersDelete($id)
 					{
 						$this->db->where('product_order_id', $id);
@@ -34,14 +91,16 @@
 
 			}
 
-			function get_order_value($table){
-			$this->db->select('*');
-			$this->db->from($table);
-			$query = $this->db->get();
-			//echo $this->db->last_query();exit;
-			$query = $query->result_array();
-			return $query;
-	         }
+			function get_order_value(){
+				$sql = 'SELECT order_table.order_id order_id, order_table.order_number order_number, order_table.customer_name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
+								INNER JOIN data_category ON order_table.data_category = data_category.id
+								INNER JOIN session ON session.id = order_table.session
+								INNER JOIN order_type ON order_type.id = order_type.id
+								GROUP BY order_table.order_number';
+				$query = $this->db->query($sql);
+				$query = $query->result_array();
+				return $query;
+	    }
 
 
 		function select($table){
@@ -53,7 +112,7 @@
 				return $query;
 
                  }
-                 
+
 		function select_order_product($id){
 				$this->db->select('product_order_id,order_id,series_number,customer_name,unit,quantity,priority,order_barcode,remark,design_code,fabric_name,hsn,design_name,stitch,dye,matching');
 				$this->db->from('order_product');
@@ -198,4 +257,23 @@
 		return true;
 	}
 
-    }
+	public function get_order_by_id($order_id)
+	 	{
+
+	   $this->db->select('*');
+	   $this->db->from('order_table');
+	   $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
+	   $this->db->where('order_table.order_number', $order_id);
+	   $query = $this->db->get();
+	   $query = $query->result_array();
+	   return $query;
+	 	}
+
+		public function last_id(){
+		   $this->db->select('max(id) AS last_id');
+		   $this->db->from('order_product');
+			 $query = $this->db->get();
+		   $query = $query->row();
+			 return $query->last_id;
+		}
+}

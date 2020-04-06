@@ -31,19 +31,17 @@ class ERC extends CI_Controller {
 
 	 public function getDesignName()
     {
-
 		$designname = $this->Erc_model->get_design_name();
 // 		echo print_r($designname);exit;
         foreach($designname as $row ) {
         foreach($row as $value){
         $result_array[]= $value;
         }
-
     }
+
+
 		header('Content-type: application/json');
 		echo json_encode($result_array);
-
-
     }
      public function get_src_fabcode()
     {
@@ -76,7 +74,12 @@ public function update()
 					$data['created_at'] = date('Y-m-d H:i:s');
 					//echo $data['desName'].$id;exit;
 					$data_value= $this->Erc_model->get_erc_name($data['desName']);
-					if(isset($id))
+				//	echo $data_value;exit;
+					if(isset($data_value))
+					{
+	  			      $this->session->set_flashdata('msg','designName already exits ');
+	  			 }
+					 else
 					{
 					   	$status = $this->Erc_model->Update($id,$data);
 					}

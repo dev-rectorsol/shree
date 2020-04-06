@@ -12,9 +12,9 @@
                 <hr>
 
                    <h4 style="color:red"><?php echo $this->session->flashdata('msg'); ?></h4>
-                 <div class="row well">
+                 <!-- <div class="row well">
          	       &nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;
-                </div>
+                </div> -->
                <div id="spreadsheet"></div>
               <p><button id='download'>Download as CSV</button></p>
             </div>

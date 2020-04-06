@@ -54,7 +54,7 @@
                 <th>GST/URD</th>
                 <th>Department</th>
                 <th>Warehouse</th>
-                <th> Work Type</th>
+               <th>Work Type</th>
                 <th>Address</th>
                 <th>Action</th>
               </tr>
@@ -73,7 +73,7 @@
                 <td><?php echo $value->gst?></td>
                 <td><?php echo $value->deptName?></td>
                 <td><?php echo $value->subDeptName?></td>
-                 <td><?php echo $value->jobworkname?></td>
+                <td><?php echo $value->job_work_type?></td>
                 <td><?php echo $value->address?></td>
                 <td>
                   <a href="<?php echo '#'.$value->id; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
@@ -142,9 +142,10 @@
                       <div class="form-group row">
                       <label class="control-label col-sm-3">Job Work Name</label>
                       <div class="col-sm-9">
-                        <select name="jobworkname" class="form-control">
-                          <?php foreach ($job_type_name as $rec): ?>
-                          <option <?php if ($value->jobworkname==$rec->type) { ?>selected <?php } ?>  value="<?php echo $rec->type ?>"><?php echo $rec->type ?></option>
+
+                        <select name="job_work_type" class="form-control">
+                          <?php foreach ($party_data as $rec): ?>
+                          <option <?php if ($value->job_work_type==$rec->job_work_type) { ?>selected <?php } ?>  value="<?php echo $rec->job_work_type ?>"><?php echo $rec->job_work_type ?></option>
                         <?php endforeach;?>
                         </select>
                       </div>
@@ -231,9 +232,9 @@
        <div class="form-group row">
         <label class="control-label col-sm-3">Job Work Name</label>
         <div class="col-sm-9">
-          <select name="jobworkname" class="form-control">
+          <select name="job_work_type" class="form-control">
             <?php foreach ($job_type_name as $rec): ?>
-            <option value="<?php echo $rec->type; ?>"><?php echo $rec->type; ?></option>
+            <option value="<?php echo $rec->id; ?>"><?php echo $rec->type; ?></option>
           <?php endforeach;?>
           </select>
         </div>
