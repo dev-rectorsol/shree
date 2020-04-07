@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2020 at 11:31 AM
+-- Generation Time: Apr 07, 2020 at 02:42 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -21,6 +21,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `shree`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LoopDemo` ()  BEGIN
+    DECLARE x  INT;
+    DECLARE str  VARCHAR(255);
+        
+    SET x = 1;
+    SET str =  '';
+        
+    loop_label:  LOOP
+        IF  x > 10 THEN 
+            LEAVE  loop_label;
+        END  IF;
+            
+        SET  x = x + 1;
+        IF  (x mod 2) THEN
+            ITERATE  loop_label;
+        ELSE
+            SET  str = CONCAT(str,x,',');
+        END  IF;
+    END LOOP;
+    SELECT str;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -186,6 +214,29 @@ INSERT INTO `design` (`id`, `designName`, `designSeries`, `designCode`, `rate`, 
 (88, 'PT 3', '0', NULL, NULL, '', '', '', NULL, 15, NULL, '311', 'D10', 'SAREE', 1),
 (89, 'PT 4', '0', NULL, NULL, '', '', '', NULL, 15, NULL, '311', 'D10', 'SAREE', 1),
 (90, 'PT 5', '0', NULL, NULL, '', '', '', NULL, 15, NULL, '311', 'D10', 'SAREE', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `design_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `design_view` (
+`id` int(11)
+,`designName` varchar(20)
+,`designSeries` varchar(50)
+,`desCode` varchar(255)
+,`rate` varchar(62)
+,`stitch` text
+,`dye` varchar(20)
+,`matching` varchar(225)
+,`sale_rate` double
+,`htCattingRate` int(10)
+,`designPic` varchar(128)
+,`fabricName` varchar(64)
+,`barCode` varchar(20)
+,`designOn` varchar(30)
+);
 
 -- --------------------------------------------------------
 
@@ -583,18 +634,20 @@ CREATE TABLE `order_product` (
   `stitch` varchar(30) NOT NULL,
   `dye` varchar(30) NOT NULL,
   `matching` varchar(30) NOT NULL,
-  `status` varchar(32) NOT NULL
+  `status` enum('PENDING','CANCEL','INPROCESS','DONE') NOT NULL DEFAULT 'PENDING',
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_product`
 --
 
-INSERT INTO `order_product` (`id`, `product_order_id`, `order_id`, `series_number`, `unit`, `quantity`, `priority`, `order_barcode`, `remark`, `design_code`, `fabric_name`, `hsn`, `design_name`, `stitch`, `dye`, `matching`, `status`) VALUES
-(2, 'O2', '58', '2', 'ddffg', 0, 'dfggdfg', '', 'df', '', '', '', 'sdas', 'gdf', '', '', ''),
-(3, 'O3', '58', '1', '', 0, '', '', '', '', '', '', '', '', '', '', ''),
-(5, 'O4', '62', '1', '', 0, '', '', '', '', '', '', '', '', '', '', ''),
-(6, 'O6', '62', '1', 'kj', 0, 'kj', 'kj', 'kjkj', 'kjk', 'jk', 'kj', 'kj', 'jkj', 'kj', 'kj', '');
+INSERT INTO `order_product` (`id`, `product_order_id`, `order_id`, `series_number`, `unit`, `quantity`, `priority`, `order_barcode`, `remark`, `design_code`, `fabric_name`, `hsn`, `design_name`, `stitch`, `dye`, `matching`, `status`, `last_update`, `deleted`) VALUES
+(2, 'O2', '58', '2', 'ddffg', 98, 'dfggdfg', '123', 'df', 'dsdf', '12231', 'ery', 'sdas', 'gdf', '', 'dfghgfhgh', 'INPROCESS', '2020-04-07 12:00:11', 0),
+(3, 'O3', '58', '1', '', 0, '', '', '', '', '', '', '', '', '', '', 'CANCEL', '2020-04-07 12:00:11', 0),
+(5, 'O4', '62', '1', '', 0, '', '', '', '', '', '', '', '', '', '', 'PENDING', '2020-04-07 12:00:11', 0),
+(6, 'O6', '62', '1', 'kj', 0, 'kj', 'kj', 'kjkj', 'kjk', 'jk', 'kj', 'kj', 'jkj', 'kj', 'kj', 'PENDING', '2020-04-07 12:00:11', 0);
 
 -- --------------------------------------------------------
 
@@ -613,7 +666,7 @@ CREATE TABLE `order_table` (
   `order_date` date NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` varchar(32) NOT NULL
+  `status` enum('NEW','DONE','CANCEL','IN-PROCESS') NOT NULL DEFAULT 'NEW'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -621,12 +674,12 @@ CREATE TABLE `order_table` (
 --
 
 INSERT INTO `order_table` (`order_id`, `order_number`, `old_order_number`, `customer_name`, `data_category`, `session`, `order_type`, `order_date`, `deleted`, `updated_at`, `status`) VALUES
-(54, 'ORD10084', NULL, 'Chanadrkanta', '3', '20', '2', '2020-04-05', 0, '2020-04-05 19:15:44', ''),
-(55, '', NULL, '', '3', '20', '1', '2020-04-06', 0, '2020-04-06 08:34:22', ''),
-(56, 'ORD100002', NULL, 'Hello world', '3', '15', '1', '2020-04-06', 0, '2020-04-06 08:46:15', ''),
-(58, 'ORD10085', NULL, 'Hello WORLD', '3', '20', '1', '2020-04-06', 0, '2020-04-06 09:01:01', ''),
-(59, 'ORD10086', NULL, 'PRM', '3', '20', '2', '2020-04-06', 0, '2020-04-06 09:03:23', ''),
-(62, 'ORD10087', NULL, 'JHkajs', '3', '20', '2', '2020-04-06', 0, '2020-04-06 09:04:55', '');
+(54, 'ORD10084', NULL, 'Chanadrkanta', '3', '20', '2', '2020-04-05', 0, '2020-04-05 19:15:44', 'NEW'),
+(55, '', NULL, '', '3', '20', '1', '2020-04-06', 0, '2020-04-06 08:34:22', 'NEW'),
+(56, 'ORD100002', NULL, 'Hello world', '3', '15', '1', '2020-04-06', 0, '2020-04-06 08:46:15', 'NEW'),
+(58, 'ORD10085', NULL, 'Hello WORLD', '3', '20', '1', '2020-04-06', 0, '2020-04-06 09:01:01', 'NEW'),
+(59, 'ORD10086', NULL, 'PRM', '3', '20', '2', '2020-04-06', 0, '2020-04-06 09:03:23', 'NEW'),
+(62, 'ORD10087', NULL, 'JHkajs', '3', '20', '2', '2020-04-06', 0, '2020-04-06 09:04:55', 'NEW');
 
 -- --------------------------------------------------------
 
@@ -951,6 +1004,15 @@ INSERT INTO `user_role` (`id`, `label`) VALUES
 (102, 'manager'),
 (103, 'user'),
 (104, 'publisher');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `design_view`
+--
+DROP TABLE IF EXISTS `design_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `design_view`  AS  select `design`.`id` AS `id`,`design`.`designName` AS `designName`,`design`.`designSeries` AS `designSeries`,`erc`.`desCode` AS `desCode`,`erc`.`rate` AS `rate`,`design`.`stitch` AS `stitch`,`design`.`dye` AS `dye`,`design`.`matching` AS `matching`,`src`.`sale_rate` AS `sale_rate`,`design`.`htCattingRate` AS `htCattingRate`,`design`.`designPic` AS `designPic`,`design`.`fabricName` AS `fabricName`,`design`.`barCode` AS `barCode`,`design`.`designOn` AS `designOn` from ((`design` left join `erc` on(`design`.`designName` = `erc`.`desName`)) left join `src` on(`src`.`fabName` = `design`.`fabricName` and `src`.`fabCode` = `erc`.`desCode`)) order by `design`.`id` desc ;
 
 --
 -- Indexes for dumped tables

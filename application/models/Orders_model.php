@@ -31,6 +31,73 @@ public function get_design_name()
    $query = $query->result_array();
    return $query;
  }
+ public function get_order_complete()
+ {
+   $this->db->select('*');
+   $this->db->from('order_product');
+   $this->db->where('status', 'DONE');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order_pending()
+ {
+
+   $this->db->select('*');
+   $this->db->from('order_product');
+   $this->db->where('status', 'PENDING');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order_cancel()
+ {
+
+   $this->db->select('*');
+   $this->db->from('order_product');
+   $this->db->where('status', 'CANCEL');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_order_count()
+ {
+        $this->db->select('count(*) as total');
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = "PENDING")
+                            )
+                            AS pending', TRUE);
+
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = "CANCEL")
+                            )
+                            AS cancel',TRUE);
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = "INPROCESS")
+                            )
+                            AS inprocess',TRUE);
+        $this->db->select('(SELECT count(order_id)
+                            FROM order_product
+                            WHERE (status = "DONE")
+                            )
+                            AS done',TRUE);
+         $this->db->from('order_product');
+   	 		$query = $this->db->get();
+   			return $query->row();
+ }
+
+	public function get_order_product_by_id($order_id){
+		$this->db->where('product_order_id', $order_id);
+		$query = $this->db->get('order_product');
+		if($query->num_rows() == 1) {
+				return true;
+		}else{
+				return false;
+		}
+	}
   public function checkorder($order){
 
         $this->db->select('*');
@@ -54,6 +121,25 @@ public function get_design_name()
         }
 
     }
+
+		public function get_order_product($order_id)
+		{
+
+			$this->db->select('*');
+			$this->db->from('order_product');
+		 // $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
+			$this->db->where('product_order_id', $order_id);
+			$query = $this->db->get();
+			$query = $query->row();
+			return $query;
+		}
+
+		function edit_order_product_details($action, $id, $table){
+				$this->db->where('product_order_id', $id);
+				$this->db->update($table,$action);
+				return true;
+		}
+
  public function get_design_code()
  {
    $this->db->select('distinct(designCode)');
@@ -185,6 +271,11 @@ public function get_design_name()
 		function edit_order($action, $id, $table){
 				$this->db->where('order_id',$id);
 				$this->db->update($table,$action);
+				return;
+		}
+		function edit_by_node($node, $id, $action, $table){
+				$this->db->where($node, $id);
+				$this->db->update($table, $action);
 				return;
 		}
 

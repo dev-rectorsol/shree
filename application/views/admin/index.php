@@ -148,7 +148,7 @@
       <nav class="sidebar-nav">
         <ul id="sidebarnav" class="p-t-30">
           <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/dashboard'); ?>" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
-                class="hide-menu">Dashboard</span></a></li>
+                class="hide-menu">Dashbord</span></a></li>
           <li class="sidebar-item hideElement "> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Master </span></a>
             <ul aria-expanded="false" class="collapse  first-level">
               <li class="sidebar-item"><a href="<?php echo base_url('admin/branch_detail'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Branch Detail </span></a></li>
@@ -172,6 +172,7 @@
           </li>
           <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Order</span></a>
             <ul aria-expanded="false" class="collapse  first-level">
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/dashboard'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Dashboard </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Show Order </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/addOrders'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Order </span></a></li>
             </ul>
@@ -203,12 +204,12 @@
     <div class="page-breadcrumb">
       <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-          <h4 class="page-title">Dashboard</h4>
+          <h4 class="page-title"><?php echo isset($page_name) ? $page_name : 'Dashbord';  ?></h4>
           <div class="ml-auto text-right">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><?php echo $name;?></li>
+                <li class="breadcrumb-item"><a href="#">HOME</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?php echo isset($page_name) ? $page_name : ''; ?></li>
               </ol>
             </nav>
           </div><br><br><br>

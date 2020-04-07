@@ -65,12 +65,14 @@
                                           <td><?php echo $value['unit']?></td>
                                           <td><?php echo $value['priority']?></td>
                                           <td>
-                                           
 
+                                            <a href="<?php echo base_url('admin/Orders/edit_order_product_details/').$value['product_order_id'] ?> ">
+                                              <i class="fas fa-edit"></i>
+                                            </a>
                                             <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value['product_order_id'];?>)" data-original-title="Delete">
                                               <i class="mdi mdi-delete red"></i>
                                             </a>
-                                         
+
                                           </td>
                                         </tr>
 
