@@ -367,4 +367,13 @@ public function get_design_name()
 		   $query = $query->row();
 			 return $query->last_id;
 		}
+
+
+		public function show_order_flow_chart(){
+			$this->db->select('*');
+			$this->db->from('order_flow_chart');
+			$query = $this->db->get();
+ 	   	$query = $query->result_array();
+		 	return $query;
+		}
 }

@@ -3,10 +3,10 @@
 	//-- check logged user
 	if (!function_exists('check_login_user')) {
 	    function check_login_user() {
-	        $ci = get_instance();
-	        if ($ci->session->userdata('is_login') != TRUE) {
-	            $ci->session->sess_destroy();
-	            redirect(base_url('auth'));
+	        if (check()) {
+	            return;
+	        }else {
+						redirect(base_url());
 	        }
 	    }
 	}
@@ -24,6 +24,28 @@
 				$data = str_replace('_', '/', $data);
 				$data = str_replace('-', ' ', $data);
 				return $data;
+	    }
+	}
+
+	if (!function_exists('get_increment')) {
+	    function get_increment($data, &$inc) {
+				return $inc = $inc + 1 ;
+	    }
+	}
+
+	if (!function_exists('get_badge')) {
+	    function get_badge($data) {
+				$color = array('success', 'danger', 'primary', 'info', 'dark', 'warning', 'secondary', 'light');
+				$output = '';
+				if (is_array(explode(',', $data))) {
+					$data = explode(',', $data);
+					foreach ($data as $value) {
+						$output .= '<span class="badge badge-pill badge-'.$color[array_rand($color)].'">'.$value.'</span>';
+					}
+				}else{
+					$output .= '<span class="badge badge-pill badge-'.$color[array_rand($color)].'">'.$data.'</span>';
+				}
+				return $output;
 	    }
 	}
 

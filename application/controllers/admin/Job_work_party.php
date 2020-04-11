@@ -8,9 +8,6 @@
 				check_login_user();
          $this->load->model('Job_work_party_model');
          $this->load->model('common_model');
-				 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
-
     	}
 
 

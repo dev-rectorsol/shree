@@ -7,9 +7,7 @@ class EMB extends CI_Controller {
         check_login_user();
        $this->load->model('common_model');
        $this->load->model('Erc_model');
-      $this->load->model('Emb_model');
-			 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
+      	$this->load->model('Emb_model');
     }
     public function index()
     {

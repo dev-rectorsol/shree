@@ -121,9 +121,9 @@
               <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
               <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="<?php echo base_url('admin/Setting'); ?>"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
+              <a class="dropdown-item" href="<?php echo base_url('admin/setting'); ?>"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+              <a class="dropdown-item" href="<?php echo base_url('login/logout'); ?>"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
               <div class="dropdown-divider"></div>
               <div class="p-l-30 p-10"><a href="javascript:void(0)" class="btn btn-sm btn-success btn-rounded">View Profile</a></div>
             </div>
@@ -173,15 +173,13 @@
           <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Order</span></a>
             <ul aria-expanded="false" class="collapse  first-level">
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/dashboard'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Dashboard </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/order_flow'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> ORDER FLOW </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Show Order </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/addOrders'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Order </span></a></li>
             </ul>
           </li>
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/FDA'); ?>" aria-expanded="false"><i class="mdi mdi-lumx"></i><span class="hide-menu">Fabric design
                 asign</span></a></li>
-          <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/Employee'); ?>" aria-expanded="false"><i class="mdi mdi-account"></i><span
-                class="hide-menu">Employee</span></a></li>
-
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/Setting'); ?>" aria-expanded="false"><i class="mdi mdi-settings"></i><span
                 class="hide-menu">Setting</span></a></li>
 

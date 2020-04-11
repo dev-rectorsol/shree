@@ -7,27 +7,18 @@ class User extends CI_Controller {
         check_login_user();
        $this->load->model('common_model');
        $this->load->model('login_model');
-			 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
+       $this->load->model('user_model');
+       $this->load->model('role_model');
     }
 
 
     public function index()
     {
         $data = array();
-        $data['name'] = 'User';
-        $data['country'] = $this->common_model->select('country');
-        $data['power'] = $this->common_model->get_all_power('user_power');
-        $data['main_content'] = $this->load->view('admin/user/users', $data, TRUE);
-        $this->load->view('admin/index', $data);
-    }
-    public function AddNew()
-    {
-        $data = array();
-        $data['page_title'] = 'User';
-        $data['country'] = $this->common_model->select('country');
-        $data['power'] = $this->common_model->get_all_power('user_power');
-        $data['main_content'] = $this->load->view('admin/user/users-create', $data, TRUE);
+        $data['name'] = 'User Management';
+        $data['user'] = $this->user_model->all_details();
+        $data['roles'] = $this->role_model->get_displayname();
+        $data['main_content'] = $this->load->view('admin/users/index', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
     public function view()
@@ -40,52 +31,71 @@ class User extends CI_Controller {
         $this->load->view('admin/index', $data);
     }
 
+		public function check_user(){
+			if ($_POST) {
+				try {
+					$data = array(
+							'username' => $_POST['username'],
+					);
+					$data = $this->security->xss_clean($data);
+					//-- check duplicate username
+					$username = $this->common_model->check_user($data['username']);
+
+					if (empty($username)) {
+
+						echo json_encode(array('error' => 0, 'msg' => 'User Name Allowed'));
+
+					} else {
+						echo json_encode(array('error' => 1, 'msg' => 'UserName Already Exist'));
+					}
+				} catch (\Exception $e) {
+					echo json_encode(array('error' => 1, 'msg' => $e->getMessage()));
+				}
+			}else {
+				echo json_encode(array('error' => 1, 'msg' => 'Request Type not Allowed'));
+			}
+		}
     //-- add new user by admin
     public function add()
     {
         if ($_POST) {
-
-            $data = array(
-                'first_name' => $_POST['first_name'],
-                'last_name' => $_POST['last_name'],
-                'email' => $_POST['email'],
-                'password' => md5($_POST['password']),
-                'mobile' => $_POST['mobile'],
-                'country' => $_POST['country'],
-                'status' => $_POST['status'],
-                'role' => $_POST['role'],
+					try {
+						$data = array(
+                'name' => $_POST['name'],
+                'username' => $_POST['username'],
+                'password' => $_POST['password'],
                 'created_at' => current_datetime()
             );
-
             $data = $this->security->xss_clean($data);
-
             //-- check duplicate email
-            $email = $this->common_model->check_email($_POST['email']);
+            $username = $this->common_model->check_user($data['username']);
 
-            if (empty($email)) {
-                $user_id = $this->common_model->insert($data, 'user');
-
-                if ($this->input->post('role') == "user") {
-                    $actions = $this->input->post('role_action');
-                    foreach ($actions as $value) {
+            if (empty($username)) {
+                $user_id = $this->user_model->add($data);
+                if ($this->input->post('role')) {
+                    $roles = $this->input->post('role');
+                    foreach ($roles as $value) {
                         $role_data = array(
                             'user_id' => $user_id,
-                            'action' => $value
+                            'role_id' => $value
                         );
                        $role_data = $this->security->xss_clean($role_data);
-                       $this->common_model->insert($role_data, 'user_role');
+                       $this->user_model->addRole($role_data);
                     }
                 }
-                $this->session->set_flashdata('msg', 'User added Successfully');
-                redirect(base_url('admin/user/all_user_list'));
+                $this->session->set_flashdata(array('error' => 0, 'msg' => 'User Added'));
+                redirect($_SERVER['HTTP_REFERER']);
             } else {
-                $this->session->set_flashdata('error_msg', 'Email already exist, try another email');
-                redirect(base_url('admin/user'));
-            }
-
-
-
-
+                $this->session->set_flashdata(array('error' => 1, 'msg' => 'User Name already exist, try another User Name'));
+                redirect($_SERVER['HTTP_REFERER']);
+          	}
+					} catch (\Exception $e) {
+						$this->session->set_flashdata(array('error' => 1, 'msg' => $e->getMessage()));
+						redirect($_SERVER['HTTP_REFERER']);
+					}
+        }else {
+					$this->session->set_flashdata(array('error' => 1, 'msg' => 'Request Type not Allowed'));
+					redirect($_SERVER['HTTP_REFERER']);
         }
     }
 

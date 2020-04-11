@@ -4,12 +4,12 @@ class Orders extends CI_Controller {
 
 public function __construct(){
       parent::__construct();
-      //check_login_user();
+      check_login_user();
      $this->load->model('common_model');
      $this->load->model('login_model');
      $this->load->model('Orders_model');;
      $this->load->library('barcode');
-   $this->load->library('pdf');
+     $this->load->library('pdf');
   }
   public function index()
   {
@@ -32,6 +32,13 @@ public function __construct(){
       $data['get_pending'] = $this->Orders_model->get_order_pending();
       $data['main_content'] = $this->load->view('admin/order/dashboard', $data, TRUE);
       $this->load->view('admin/index', $data);
+  }
+
+  public function order_flow() {
+    $data = array();
+    $data['page_name'] = 'ORDER FLOW CHART';
+    $data['main_content'] = $this->load->view('admin/order/order_flow_chart', $data, TRUE);
+    $this->load->view('admin/index', $data);
   }
 
   public function add_new_order() {

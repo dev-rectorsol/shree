@@ -9,8 +9,6 @@
          $this->load->model('Job_work_type_model');
          $this->load->model('common_model');
          $this->load->model('unit_model');
-				 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
 
     	}
 

@@ -2,6 +2,10 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
+    // Multi Select
+
+     $(".select2").select2();
+
     // Apply Data Table
      $('table').DataTable();
 

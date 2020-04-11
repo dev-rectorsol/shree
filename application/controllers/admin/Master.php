@@ -6,8 +6,6 @@ class Master extends CI_Controller {
         parent::__construct();
         check_login_user();
         $this->load->model('common_model');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     }
     public function index()
     {

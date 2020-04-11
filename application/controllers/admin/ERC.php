@@ -7,8 +7,6 @@ class ERC extends CI_Controller {
         check_login_user();
        $this->load->model('common_model');
        $this->load->model('Erc_model');
-			 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     }
     public function index()
     {

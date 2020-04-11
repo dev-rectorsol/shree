@@ -9,8 +9,6 @@
         $this->load->model('Fabric_model');
         $this->load->model('Design_model');
 	    $this->load->model('FDA_model');
-		if ($_SESSION['role']!=101)
-        redirect(base_url('admin/Dashboard'));
 
     	}
 

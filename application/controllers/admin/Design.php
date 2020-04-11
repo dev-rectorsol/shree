@@ -10,8 +10,6 @@
         $this->load->model('common_model');
         $this->load->library('barcode');
 			  $this->load->library('pdf');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     	}
 
 

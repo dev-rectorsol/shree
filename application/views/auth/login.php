@@ -51,20 +51,30 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                         <span class="db"><img src="<?php echo base_url('optimum/admin') ?>/assets/images/shri1.png" alt="logo" /></span>
                     </div>
                     <!-- Form -->
-                    <form class="form-horizontal m-t-20" id="loginform" action="<?php echo base_url('auth/log') ?>" method="post">
+                    <form class="form-horizontal m-t-20" id="loginform" action="<?php echo base_url('login') ?>" method="post">
+
+                      <?= isset($failed) && !empty($failed) ? '<div class="alert alert-danger" role="alert">'.$failed.'</div>' : ""; ?>
+                      <?= $this->session->flashdata('success'); ?>
                         <div class="row p-b-30">
                             <div class="col-12">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" name="user_name" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
+                                    <?= form_error('username', '<div class="err">', '</div>'); ?>
+                                    <input type="text" name="username" class="form-control form-control-lg" value="<?= set_value('username'); ?>" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Password" name="password" aria-label="Password" aria-describedby="basic-addon1" required="">
+                                    <?= form_error('password', '<div class="err">', '</div>'); ?>
+                                    <input type="password" class="form-control form-control-lg" placeholder="Password" value="<?= set_value('password'); ?>" name="password" aria-label="Password" aria-describedby="basic-addon1" required="">
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <label>
+                                        <input type="checkbox"  value="remember-me"> Remember me
+                                    </label>
                                 </div>
                             </div>
                         </div>

@@ -75,14 +75,14 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	// 'dsn'	=> 'mysql:host=localhost;dbname=mcfojotc_sareeerpdb',
- 	'dsn'	=> 'mysql:host=localhost;dbname=shree',
+ 	'dsn'	=> 'mysql:host=localhost;dbname=checkaccess',
 	'hostname' => "localhost",
 	// 'username' => 'mcfojotc_sareeerpur',
 	// 'password' => 'O$BkA3GRMSrn',
 	// 'database' => 'mcfojotc_sareeerpdb',
  	'username' => "root",
  	'password' => "",
- 	'database' => "shree",
+ 	'database' => "checkaccess",
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
