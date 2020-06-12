@@ -15,7 +15,7 @@ class Job_work_party_model extends CI_Model {
 	}
 		public function job_work_name()
 	{
-		$this->db->select('DISTINCT(type)');
+		$this->db->select('id, type');
      $rec=$this->db->get('job_work_type');
 		return $rec->result();
 	}

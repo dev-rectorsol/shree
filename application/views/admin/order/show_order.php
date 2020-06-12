@@ -14,20 +14,22 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                            &nbsp;&nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all_product  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                              <a href="<?php echo base_url('admin/Orders/back') ?>" style="">GO Back</a>
                             </div>
                             <table class="table table-bordered data-table text-center table-responsive">
                                 <thead class="">
                                     <tr class="odd" role="row">
-                                        <th><input type="checkbox" class="sub_chk_order" id="master"></th>
+                                        <th><input type="checkbox" class="sub_chk" id="master"></th>
                                         <th>S/No</th>
                                         <th>Series Number</th>
+                                         <th>Order Barcode </th>
                                         <th>Order Number</th>
+                                        <th>Customer Name</th>
                                         <th>Fabric Name</th>
                                         <th>Hsn</th>
 
-                                        <!-- <th>Customer Name</th> -->
+                                        
                                         <th>Design Name</th>
                                          <th>Design Code</th>
                                         <th>Stitch</th>
@@ -36,6 +38,7 @@
                                         <th>Remark</th>
                                         <th>Quntity</th>
                                         <th>Unit</th>
+                                        <th>Image</th>
                                         <th>Priority</th>
 
                                         <th>Action</th>
@@ -44,17 +47,20 @@
                                 <tbody>
                                   <?php
                                         $id=1;
-                                        foreach ($all_Order_list as $value) { ?>
+                                        foreach ($order_data as $value) { ?>
                                         <tr class="gradeU" id="tr_<?php echo $value['product_order_id']?>">
 
-                                          <td><input type="checkbox" class="sub_chk_order" data-id="<?php echo $value['product_order_id'] ?>"></td>
+                                          <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['product_order_id'] ?>"></td>
                                           <td><?php echo $id ?></td>
 
                                           <td><?php echo $value['series_number']?></td>
-                                          <td><?php echo $value['order_id'];?></td>
+                                          <td><?php echo $value['order_barcode'];?></td>
+                                          <td><?php echo $value['order_number'];?></td>
+                                          
+                                          <td><?php echo $value['customer_name'];?></td>
                                           <td><?php echo $value['fabric_name'];?></td>
                                           <td><?php echo $value['hsn'];?></td>
-                                          <!-- <td><?php echo $value['customer_name'];?></td> -->
+                                          
                                           <td><?php echo $value['design_name']?></td>
                                           <td><?php echo $value['design_code']?></td>
                                           <td><?php echo $value['stitch']?></td>
@@ -63,6 +69,7 @@
                                           <td><?php echo $value['remark']?></td>
                                           <td><?php echo $value['quantity']?></td>
                                           <td><?php echo $value['unit']?></td>
+                                          <td><?php echo $value['image']?></td>
                                           <td><?php echo $value['priority']?></td>
                                           <td>
 
@@ -90,19 +97,13 @@
 
 
 <script>
-function delete_detail(id)
-{
-  var del = confirm("Do you want to Delete");
-  if (del == true)
-  {
-    var sureDel = confirm("Are you sure want to delete");
-    if (sureDel == true)
-    {
-      window.location="<?php echo base_url()?>admin/Orders/deleteOrders_pro/"+id;
+    function delete_detail(id) {
+        var del = confirm("Do you want to Delete");
+        if (del == true) {
+            window.location = "<?php echo base_url()?>admin/Orders/deleteOrders/" + id;
+        }
     }
-
-  }
-}
+     
 </script>
 
 <?php include('order_js.php');?>

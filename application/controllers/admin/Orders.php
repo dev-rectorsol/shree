@@ -4,29 +4,45 @@ class Orders extends CI_Controller {
 
 public function __construct(){
       parent::__construct();
-      //check_login_user();
+      check_login_user();
      $this->load->model('common_model');
      $this->load->model('login_model');
      $this->load->model('Orders_model');;
      $this->load->library('barcode');
-   $this->load->library('pdf');
+     $this->load->library('pdf');
   }
   public function index()
   {
       $data = array();
-      $data['name'] = 'Orders';
-      $data['all_order_type'] = $this->Orders_model->select_order_type('order_type');
-      $data['all_session'] = $this->Orders_model->select_order_type('session');
+      $data['page_name'] = 'ORDER';
       $data['all_Order_list'] = $this->Orders_model->select('order_product');
       $data['data_cat'] = $this->common_model->select('data_category');
       $data['all_Order'] = $this->Orders_model->get_order_value();
-      // echo "<pre>";
-      // echo print_r( $data['all_Order']);exit;
       $data['main_content'] = $this->load->view('admin/order/order', $data, TRUE);
       $this->load->view('admin/index', $data);
   }
 
-  public function add_new_order(){
+  public function dashboard()
+  {
+      $data = array();
+      $data['page_name'] = 'ORDER DASHBORD';
+       $data['cause'] = $this->common_model->select('cause_list');
+      $data['order_count'] = $this->Orders_model->get_order_count();
+      $data['get_complete'] = $this->Orders_model->get_order_complete();
+      $data['get_cancel'] = $this->Orders_model->get_order_cancel();
+      $data['get_pending'] = $this->Orders_model->get_order_pending();
+      $data['main_content'] = $this->load->view('admin/order/dashboard', $data, TRUE);
+      $this->load->view('admin/index', $data);
+  }
+
+  public function order_flow() {
+    $data = array();
+    $data['page_name'] = 'ORDER FLOW CHART';
+    $data['main_content'] = $this->load->view('admin/order/order_flow_chart', $data, TRUE);
+    $this->load->view('admin/index', $data);
+  }
+
+  public function add_new_order() {
     if($_POST)
   	{
   		$data=array(
@@ -39,8 +55,10 @@ public function __construct(){
   		);
   		$order_number =	$this->Orders_model->insert($data, 'order_table');
   		if ($order_number) {
-  			for($i = 0; $i < count($_POST['serial_number']); $i++){
+  			for($i = 0; $i < count($_POST['serial_number']); $i++) {
+            $lastId = $this->Orders_model->last_id();
   					$data=array(
+                'product_order_id' => 'O'. ($lastId + 1),
                 'order_id' => $order_number,
   							'series_number' => $_POST['serial_number'][$i],
   							'unit' => $_POST['unit'][$i],
@@ -78,13 +96,32 @@ public function __construct(){
     $data['unit'] = $this->Orders_model->get_unit();
     $data['all_Order'] = $this->Orders_model->select_order_type('order_type');
     $data['data_cat'] = $this->common_model->select('data_category');
+    $data['customer'] = $this->common_model->select('customer_detail');
     $data['all_session'] = $this->Orders_model->select_order_type('session');
     $data['main_content'] = $this->load->view('admin/order/addOrder', $data, TRUE);
     $this->load->view('admin/index', $data);
   }
-
+public function getFabricDetails(){
+     $id= $this->security->xss_clean($_POST['id']);
+    $data = array();
+     $data['febName']=$this->Orders_model->getFabricDetails($id);
+     echo json_encode($data['febName']);
+  }
+  public function getFabricName(){
+    if ($_POST) {
+    $fabric=$this->security->xss_clean($_POST);
+     $data['febName']=$this->Orders_model->get_fabric_by_name($fabric['search']);
+     echo json_encode($data['febName']);
+     }
+  }
+  public function getDesignDetails(){
+     $id= $this->security->xss_clean($_POST['id']);
+    $data = array();
+     $data['design']=$this->Orders_model->getDesignDetails($id);
+     echo json_encode($data['design']);
+  }
   public function CheckOrder(){
-    $order = $_POST['order'];
+    $order = $this->security->xss_clean($_POST['order']);
     $query=$this->Orders_model->checkorder($order);
     if($query){
       echo "taken";
@@ -93,6 +130,24 @@ public function __construct(){
     }
   }
 
+  public function show_prm_data() {
+        if($_POST) {
+          $order_id = $_POST['order_number'];
+          $data=array();
+          $data['order_number']=$order_id;
+          $data['session']=$_POST['session'];
+          $data['category']=$_POST['category'];
+          $data['order_type']=$_POST['order_type'];
+          $data['old_order_number']=$_POST['order_number'];
+          $data['name']='Order PRM List';
+          $data['order_data']=$this->Orders_model->get_order_by_id($order_id);
+          //  print_r($data['order_data']);exit;
+          $data['main_content'] = $this->load->view('admin/order/show_prm', $data, TRUE);
+          $this->load->view('admin/index', $data);
+        }else {
+          show_404();
+        }
+      }
 
     public function add_fresh_data()
     {
@@ -112,7 +167,8 @@ public function __construct(){
     					$data=array(
                   'order_id' => $order_number,
     							'series_number' => $_POST['serial_number'][$i],
-    							'unit' => $_POST['unit'][$i],
+                  'unit' => $_POST['unit'][$i],
+                  'design_barcode' => $_POST['dbc'][$i],
     							'quantity' => $_POST['quantity'][$i],
     							'priority' => $_POST['priority'][$i],
     							'order_barcode' => $_POST['order_barcode'][$i],
@@ -137,6 +193,35 @@ public function __construct(){
       }
     }
 
+// Dashbord Actions
+
+    public function update_status($status, $order_id){
+
+      if (self::check_order($order_id)) {
+        try {
+          $data = [
+            'status' => $status
+          ];
+          $this->Orders_model->edit_by_node('product_order_id', $order_id, $data, 'order_product');
+          $this->session->set_flashdata(array('error' => 0, 'msg' => 'ORDER FOUND'));
+          redirect($_SERVER['HTTP_REFERER']);
+        } catch (\Exception $e) {
+          $error = $e->getMessage();
+          $this->session->set_flashdata(array('error' => 1, 'msg' => $error));
+          redirect($_SERVER['HTTP_REFERER']);
+
+        }
+      }else {
+        $this->session->set_flashdata(array('error' => 1, 'msg' => 'ORDER NOT FOUND'));
+        redirect($_SERVER['HTTP_REFERER']);
+      }
+
+    }
+
+    public function check_order($order_id){
+      return $this->Orders_model->get_order_product_by_id($order_id);
+    }
+
     public function get_details($order_id)
     {
         $order_id = sanitize_url($order_id);
@@ -148,37 +233,33 @@ public function __construct(){
 
     }
 
-    public function edit_order($order_id)
-    {
-        // $order_id = sanitize_url($order_id);
-        $data=array();
-        $data['name']='Order List';
-        $data['order_data']=$this->Orders_model->get_order($order_id);
-        $data['main_content'] = $this->load->view('admin/order/edit_order', $data, TRUE);
-        $this->load->view('admin/index', $data);
-
-    }
 
     public function edit_order_product_details($order_id)
-    {
-        // $order_id = sanitize_url($order_id);
-        $data=array();
-        $data['name']='Order List';
-        $data['order_data']=$this->Orders_model->get_order_product($order_id);
-      //  echo print_r($data['order_data']);exit;
-        $data['main_content'] = $this->load->view('admin/order/edit_order_details', $data, TRUE);
-        $this->load->view('admin/index', $data);
-
-    }
-    public function get_order_details($id)
         {
-             $data=array();
-             $data['name']='All Order List';
-             $data['all_Order_list'] = $this->Orders_model->get_order_detail_value($id,'order_product');
-             $data['main_content']=$this->load->view('admin/order/show_order', $data,TRUE);
-             $this->load->view('admin/index', $data);
+            $data=array();
+            $data['name']='Order List';
+            $data['order_data']=$this->Orders_model->get_order_product($order_id);
+          //  echo"<pre>"; print_r($data['order_data']);exit;
+            $data['main_content'] = $this->load->view('admin/order/edit_order_details', $data, TRUE);
+            $this->load->view('admin/index', $data);
 
-      }
+        }
+
+
+        public function edit_order_product($order_id)
+        {
+          if($_POST) {
+            $data=$this->input->post();
+            $data = $this->security->xss_clean($data);
+            $result = $this->Orders_model->edit_order_product_details($data, $order_id, 'order_product');
+            if ($result) {
+              $this->session->set_flashdata(array('error' => 0, 'msg' => 'ORDER PRODUCT UPDATE DONE'));
+            }else{
+              $this->session->set_flashdata(array('error' => 1, 'msg' => 'ORDER PRODUCT UPDATE FAILD'));
+            }
+            redirect($_SERVER['HTTP_REFERER']);
+          }
+        }
 
     public function add_prm()
       {
@@ -198,18 +279,59 @@ public function __construct(){
        //  $data['pdf'] = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
        //  $this->load->view('admin/order/print', $data);
        // }
+public function cancel_status(){
+  if($_POST) {
+    //  echo "<pre>"; print_r($_POST);exit;
+        try {
+          $data = [
+            'status' => 'CANCEL'
+          ];
+           $ids = $this->input->post('ids');
+       $userid= explode(",", $ids);
+       foreach ($userid as $value) {
+          $this->Orders_model->edit_by_node('product_order_id', $value, $data, 'order_product');
+          $data1 = [
+            'order_id' => $value,
+            'cause' => $this->input->post('cause'),
+            'date' => $this->input->post('date'),
+          ];
+          $this->Orders_model->insert($data1,'order_cancel_cause');
+        }
+        } catch (\Exception $e) {
+          $error = $e->getMessage();
+          $this->session->set_flashdata(array('error' => 1, 'msg' => $error));
+          redirect($_SERVER['HTTP_REFERER']);
 
+        }
+    }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+public function done_status(){
+  if($_POST) {
+    //  echo "<pre>"; print_r($_POST);exit;
+        try {
+          $data = [
+            'status' => 'DONE'
+          ];
+           $ids = $this->input->post('ids');
+       $userid= explode(",", $ids);
+       foreach ($userid as $value) {
+          $this->Orders_model->edit_by_node('product_order_id', $value, $data, 'order_product');
+        
+        }
+        } catch (\Exception $e) {
+          $error = $e->getMessage();
+          $this->session->set_flashdata(array('error' => 1, 'msg' => $error));
+          redirect($_SERVER['HTTP_REFERER']);
+
+        }
+    }
+        
+    }
 
           public function deleteOrders($id)
           {
             $this->Orders_model->OrdersDelete_table($id);
-            redirect(base_url('admin/Orders'));
-          }
-
-          public function deleteOrders_pro($id)
-          {
-
-            $this->Orders_model->OrdersDelete_product($id);
             redirect(base_url('admin/Orders'));
           }
 
@@ -220,15 +342,7 @@ public function __construct(){
      $this->db->delete('order_table', array('order_id' => $value));
   }
 }
-public function deleteorder_product(){
-$ids = $this->input->post('ids');
-$userid= explode(",", $ids);
-foreach ($userid as $value) {
-$this->db->delete('order_product', array('product_order_id' => $value));
-}
-}
-
-  public function edit_order_table($id)
+  public function editOrders($id)
   {
       if($_POST){
       $data=$this->input->post();
@@ -237,17 +351,7 @@ $this->db->delete('order_product', array('product_order_id' => $value));
       redirect(base_url('admin/Orders'));
     }
   }
-  public function edit_order_product($order_id)
-  {
-    // $order_id = sanitize_url($order_id);
-    //echo $order_id;exit;
-      if($_POST){
-      $data=$this->input->post();
-      // $data=$this->input->post('')
-      $this->Orders_model->edit_order_product_details($data,$order_id,'order_product');
-      redirect(base_url('admin/Orders'));
-    }
-  }
+
 
 // public function order_number(){
 //   if(isset($_POST['search'])){
@@ -261,7 +365,16 @@ $this->db->delete('order_product', array('product_order_id' => $value));
 //       echo json_encode($response);
 // }
 
-
+    public function get_order_details()
+        {
+          $data=array();
+            if ($_POST) {
+             $output = '';
+             $data['all_Order_list'] = $this->Orders_model->get_order_detail_value($_POST['oreder_id'],'order_product');
+             $data['data']=$this->load->view('admin/order/show_order', $data,TRUE);
+             $this->load->view('admin/order/index', $data);
+        }
+      }
 
           public function back()
                 {

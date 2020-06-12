@@ -38,153 +38,145 @@
                     <?php endforeach;?>
                   </select>
                 </div>
-                <div class="col-md-3"> <br>
-
+                <div class="col-md-3">
                   <button type="button" name="add_more" id="add_order" class="btn btn-success btn-md">Select Order Type</button>
                 </div>
               </div>
             </div>
           </div>
           <br>
-          <div id="fresh_form" class="card overflow-auto">
+          <div id="order_form" class="card overflow-auto">
             <div class="card-header">
-              <h5 class="card-title"><i class="fa fa-plus"></i> Enter Fresh Order Details</h5>
-              <div class='pull-right' id='msg'>
+              <h5 class="card-title"><i class="fa fa-plus"></i>ENTER NEW ORDER DETAILS</h5>
+              <div class='float-right msg'>
               </div>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-3">
                   <label>ORDER NUMBER</label>
-                  <input type="text" class="form-control" name="order_number" id="order_number">
+                  <input type="text" class="form-control order_number" name="order_number" required>
                 </div>
                 <div class="col-md-3">
                   <label>CUSTOMER NAME</label>
-                  <input type="text" class="form-control" name="customer_name" placeholder="">
-                </div>
+                 <select name="customer_name" class="form-control" >
+                    <option>Select Customer</option>
+                    <?php foreach ($customer as $value): ?>
+                    <option value="<?php echo $value['id'];?>"> <?php echo $value['name'];?></option>
+                    <?php endforeach;?>
+                  </select>
+                </div><div class="col-md-2"></div>
+                <div class="col-md-4"><label>IMAGE</label><img src="" alt="" id="preview" style="width:100px">  </div>
               </div>
               <hr>
-              <table class="remove_datatable">
+              <table id="fresh_form" class="remove_datatable">
                 <thead>
                   <th>#</th>
-                  <th>Unit</th>
-                  <th>Quantity</th>
-                  <th>priority</th>
-                  <th>Order Barcode</th>
-                  <th>Remark</th>
-                  <th>Fabric Name</th>
-                  <th>Hsn</th>
+                  <th>Serial N0.</th>
+                  <th>Design Barcode</th>
+                  <th>Fabric_Name</th>
+                  <th>Hsn</th> 
+                  
                   <th>Design Name</th>
                   <th>Design Code</th>
                   <th>Stitch</th>
                   <th>Dye</th>
                   <th>Matching</th>
+                  <th>Quantity</th><th>Unit</th>  <th>Image</th>
+                  <th>priority</th>
+                  <th>Order Barcode</th>
+                  <th>Remark</th>
                   <th>Option</th>
                 </thead>
                 <tbody id="fresh_data">
-                  <tr>
-                    <td><input type="text" class="form-control" name="serial_number[]" value="1"></td>
-                    <td><input type="text" name="unit[]" class="form-control" value=""></td>
+                  <tr id="0">
+                    <td><input type="text" class="form-control" readonly value="1"></td>
+                    <td><input type="text" class="form-control" name="serial_number[]" value=""></td>
+                    <td><input type="text" class="form-control design_name"  value=""></td>
+                    <td><select name="fabric_name[]" class="form-control fabric_name select2" >
+                          <option>Select Fabric</option>
+                           <?php foreach ($febName as $value): ?>
+                          <option value="<?php echo $value->id;?>"> <?php echo $value->fabricName;?></option>
+                            <?php endforeach;?>
+                     </select> </td>
+                    <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0'></td>
+                     
+                    <td><input type="text" name="design_name[]" class="form-control" value="" id='designName0'></td>
+                    <td> <input type="text" name="design_code[]" class="form-control" value="" id='designCode0'></td>
+                    <td><input type="text" class="form-control" name="stitch[]" value="" id='stitch0'></td>
+                    <td> <input type="text" class="form-control" name="dye[]" value="" id='dye0'></td>
+                    <td><input type="text" class="form-control" name="matching[]" value="" id='matching0'></td>
+                   
                     <td><input type="text" class="form-control" name="quantity[]" value=""></td>
-                    <td> <input type="text" class="form-control" name="priority[]" value=""></td>
+                    <td><input type="text" name="unit[]" class="form-control " value="" id="unit0"></td>
+                    <td><input type="text" name="image[]" class="form-control image" value="" id="image0"></td>
+                    <td> <input type="text" class="form-control" name="priority[]" value="30"></td>
                     <td> <input type="text" class="form-control" name="order_barcode[]" value=""></td>
                     <td><input type="text" class="form-control" name="remark[]" value=""></td>
-                    <td> <input type="text" name="fabric_name[]" class="form-control" value=""></td>
-                    <td><input type="text" class="form-control" name="hsn[]" value=""></td>
-                    <td><input type="text" name="design_name[]" class="form-control" value=""></td>
-                    <td> <input type="text" name="design_code[]" class="form-control" value=""></td>
-                    <td><input type="text" class="form-control" name="stitch[]" value=""></td>
-                    <td> <input type="text" class="form-control" name="dye[]" value=""></td>
-                    <td><input type="text" class="form-control" name="matching[]" value=""></td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table id="prm_form" class="remove_datatable">
+                <thead>
+                  <th>#</th>
+                   <th>Serial N0.</th>
+                  <th>old Barcode</th>
+                  <th>Fabric_Name</th>
+                  <th>Hsn</th>
+                  
+                  <th>Design Name</th>
+                  <th>Design Code</th>
+                  <th>Stitch</th>
+                  <th>Dye</th>
+                  <th>Matching</th>
+                  <th>Quantity</th>
+                  <th>Unit</th>
+                  <th>Image</th>
+                  <th>priority</th>
+                  <th>Order Barcode</th>
+                  <th>Remark</th>
+                  <th>Option</th>
+                </thead>
+                <tbody id="prm_data">
+                  <tr id="0">
+                   <td><input type="text" class="form-control" readonly value="1"></td>
+                    <td><input type="text" class="form-control" name="serial_number[]" value=""></td>
+                    <td> <input type="text" name="old_barcode[]" class="form-control" value=""></td>
+                    <td> <select name="fabric_name[]" class="form-control fabric_name select2" >
+                          <option>Select Fabric</option>
+                           <?php foreach ($febName as $value): ?>
+                          <option value="<?php echo $value->id;?>" > <?php echo $value->fabricName;?></option>
+                            <?php endforeach;?>
+                     </select></td>
+                    <td><input type="text" class="form-control hsn" name="hsn[]" value="" id='hsnp0' ></td>
+                   
+                    <td><input type="text" name="design_name[]" class="form-control" value="" id='designNamep0'></td>
+                    <td> <input type="text" name="design_code[]" class="form-control" value="" id='designCodep0'></td>
+                    <td><input type="text" class="form-control" name="stitch[]" value="" id='stitchp0'></td>
+                    <td> <input type="text" class="form-control" name="dye[]" value="" id='dyep0'></td>
+                    <td><input type="text" class="form-control" name="matching[]" value="" id='matchingp0'></td>
+                    
+                    <td><input type="text" class="form-control" name="quantity[]" value=""></td>
+                     <td><input type="text" name="unit[]" class="form-control unit" value="" id="unitp0"></td>
+                     <td><input type="text" name="image[]" class="form-control image" value="" id="imagep0"></td>
+                    <td> <input type="text" class="form-control" name="priority[]" value="30"></td>
+                    <td> <input type="text" class="form-control" name="order_barcode[]" value=""></td>
+                    <td><input type="text" class="form-control" name="remark[]" value=""></td>
+                    <td> <button type="button" name="add_more" id="add_more_prm" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>
               </table>
               <div class="col-md-3 align-center"><br>
                 <input type="hidden" id="get_csrf_hash" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                <input type="submit" name="action" id="order_btn" class="btn btn-info btn-block" value="ORDER " />
+                <input type="submit" name="action" id="order_btn" class="btn btn-info btn-block" value="CREATE " />
               </div>
             </div>
           </div>
         </form>
-        <br>
-        <form method="post" id="order_form" action="<?php echo base_url('admin/Orders/add_fresh_data')?>">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="fa fa-plus"></i> Enter PRM Order Details</h5>
-            </div>
-            <div class="modal-body">
-              <div class="row overflow-auto" id="fresh_data">
-                <div class="col-md-1">
-                  <label>Sr.No.</label>
-                  <input type="text" class="form-control" name="serial_number[]" value="" id="">
-                </div>
-                <div class="col-md-2">
-                  <label>Customer Name</label>
-                  <input type="text" class="form-control" name="customer_name" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Unit</label>
-                  <input type="text" class="form-control" name="unit[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Quantity</label>
-                  <input type="text" class="form-control" name="quantity[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>priority</label>
-                  <input type="text" class="form-control" name="priority[]" value="">
-                </div>
-                <div class="col-md-2">
-                  <label>Order Barcode</label>
-                  <input type="text" class="form-control" name="order_barcode[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Remark</label>
-                  <input type="text" class="form-control" name="remark[]" value="">
-                </div>
-                <div class="col-md-2">
-                  <label>Fabric Name</label>
-                  <input type="text" class="form-control" name="fabric_name[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Hsn</label>
-                  <input type="text" class="form-control" name="hsn[]" value="">
-                </div>
-                <div class="col-md-2">
-                  <label>Design Name</label>
-                  <input type="text" class="form-control" name="design_name[]" value="">
-                </div>
-                <div class="col-md-2">
-                  <label>Design Code</label>
-                  <input type="text" class="form-control" name="design_code[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Stitch</label>
-                  <input type="text" class="form-control" name="stitch[]" value="">
-                </div>
-                <div class="col-md-1">
-                  <label>Dye</label>
-                  <input type="text" class="form-control" name="dye[]" value="">
-                </div>
-                <div class="col-md-2">
-                  <label>Matching</label>
-                  <input type="text" class="form-control" name="matching[]" value="">
-                </div>
-                <button type="button" name="add_more" id="add_more" class="btn btn-success float-right">+</button>
-              </div>
-              <hr>
-              <div id="repeater">
-              </div>
-              <div class="col-md-3 align-center"><br>
-                <input type="hidden" id="get_csrf_hash" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-                <input type="submit" name="action" id="order_btn2" class="btn btn-info btn-block" value="ORDER " />
-              </div>
-            </div>
-          </div>
-        </form><br>
       </div>
     </div>
   </div>
 </div>
+
 <?php include('order_js.php');?>

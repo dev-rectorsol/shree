@@ -8,8 +8,6 @@ class Employee extends CI_Controller {
        $this->load->model('common_model');
        $this->load->model('Customer_model');
        $this->load->model('Employee_model');
-			 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     }
     public function index()
     {

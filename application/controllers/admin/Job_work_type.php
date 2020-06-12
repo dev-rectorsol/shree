@@ -8,8 +8,7 @@
 				check_login_user();
          $this->load->model('Job_work_type_model');
          $this->load->model('common_model');
-				 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
+         $this->load->model('unit_model');
 
     	}
 
@@ -17,13 +16,12 @@
     	public function index(){
 	        $data = array();
 	        $data['name']='Job Work Type';
-            $data['work_type']=$this->Job_work_type_model->get();
-					// echo "<pre>";
-					// echo print_r($data['work_type']);exit;
+          $data['work_type']=$this->Job_work_type_model->get();
           $data['type']=$this->Job_work_type_model->getType();
-          $data['fabtype']=$this->Job_work_type_model->getfabricType();
-	      $data['main_content'] = $this->load->view('admin/master/job_work_type/jobworktype', $data, TRUE);
-		  $this->load->view('admin/index', $data);
+          $data['units']=$this->unit_model->getUnits();
+	        $data['fabtype']=$this->Job_work_type_model->getfabricType();
+		      $data['main_content'] = $this->load->view('admin/master/job_work_type/jobworktype', $data, TRUE);
+			  	$this->load->view('admin/index', $data);
         }
 
     //     public function addType(){
@@ -43,45 +41,45 @@
     //         $recod = array();
     //         $recod['jobId'] = $data1['jobId'];
     //         //   foreach ($str as $value)
-    //          for ($i=0; $i <count($str) ; $i++) 
+    //          for ($i=0; $i <count($str) ; $i++)
     //           {
     //              $temp = array();
     //               if($count <= 3){
-                      
+
     //                   switch($count){
     //                           case 1:
     //                           $temp['job']=$str[$i];
     //                         //   echo $temp['job'];
     //                           break;
     //                             case 2:
-    //                              $temp['rate'] =$str[$i]; 
+    //                              $temp['rate'] =$str[$i];
     //                             //  echo $temp['rate'];
     //                             break;
     //                              case 3:
-    //                                  $temp['unit'] =$str[$i]; 
+    //                                  $temp['unit'] =$str[$i];
     //                                 //  echo $temp['unit'];
     //                                 break;
-                                    
+
     //                             }
-                      
+
     //                   if($count==3){
     //                       $recod[]=$temp;
     //                       unset($temp);
     //                   }
-                      
-                     
+
+
     //               }
-                 
+
     //               else{
     //                   $count = 0;
     //                   $count++;
     //               }
-    //               $count++; 
-                 
+    //               $count++;
+
     //           }
     //              print_r($recod);exit;
 
-            
+
     //           for($i=0; $i <count($job) ; $i++){
     //             $data1['job']=$job[$i];
     //             $data1['rate']=$rate[$i];
@@ -96,34 +94,29 @@
 
     //     }
       public function addType(){
-            if ($_POST)
-        {
-            //echo print_r($_POST);exit;
-                $data=array();
-                $data['type']=$this->input->post('type');
-
-              $jobid= $this->Job_work_type_model->add($data);
-            //  echo $jobid;exit;
-          if ($jobid) {
-         $count = count($_POST['count']);
-         ///echo $count;exit;
-              for($i = 0; $i<$count; $i++){
-            $data = array(
-                'unit' =>$_POST['unit'][$i],
-                'jobId' =>$jobid,
-                'job' =>$_POST['job'][$i],
-                'rate' =>$_POST['rate'][$i]
-              );
-              
-                $this->Job_work_type_model->insert($data,'jobtypeconstant');
-              }
-          }
-
-          redirect(base_url('admin/Job_work_type'));
-
+				if ($_POST) {
+					$data=array();
+					$data['type']=$this->input->post('type');
+					$jobid= $this->Job_work_type_model->add($data);
+					if ($jobid) {
+						for($i = 0; $i < count($_POST['job']); $i++) {
+							$datajob = array(
+								'unit' =>$_POST['unit'][$i],
+								'jobId' =>$jobid,
+								'job' =>$_POST['job'][$i],
+								'rate' =>$_POST['rate'][$i]
+							);
+							$this->Job_work_type_model->insert($datajob,'jobtypeconstant');
+						}
+						$this->session->set_flashdata(array('error' => 0, 'msg' => 'Job Work Added Successfully'));
+						redirect(base_url('admin/Job_work_type'));
+					}else {
+						$this->session->set_flashdata(array('error' => 1, 'msg' => 'Job Work Added Faild'));
+						redirect(base_url('admin/Job_work_type'));
+					}
         }
 
-        }
+      }
         public function edit($id){
             if ($_POST)
     		{

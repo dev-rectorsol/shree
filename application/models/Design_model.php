@@ -10,14 +10,12 @@ class Design_model extends CI_Model {
 	}
 	public function get()
 	{
-		$rec=$this->db->get('design');
+    $sql = 'SELECT * FROM design_view';
+		$rec=$this->db->query($sql);
 		return $rec->result();
-
 	}
 	public function edit($id,$data)
 	{
-		// print_r($data);
-		// print_r($id);
 		$this->db->where('id', $id);
 		$this->db->update('design', $data);
 		return true;
@@ -41,7 +39,7 @@ class Design_model extends CI_Model {
   public function get_single_value_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('design');
+    $this->db->from('design_view');
     // $this->db->like($searchByCat, $searchValue);
     $this->db->where('id',$id);
     $rec=$this->db->get();
@@ -54,7 +52,7 @@ class Design_model extends CI_Model {
     public function get_multi_value_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('design');
+    $this->db->from('design_view');
     $this->db->where('id',$id);
     $rec=$this->db->get();
     return $rec->row();
@@ -120,7 +118,7 @@ class Design_model extends CI_Model {
 function getLastId(){
     			$this->db->select("barCode");
     			$this->db->from('design');
-    			$this->db->order_by('barCode','DESC');
+    			$this->db->order_by('id','DESC');
     			$this->db->limit(1);
     			$query = $this->db->get();
     			$query = $query->row();

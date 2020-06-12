@@ -18,7 +18,7 @@ $(document).ready(function() {
         data= jexcel(document.getElementById('spreadsheet'), {
         data:text,
         search:true,
-        pagination:10,
+        pagination:30,
         columns: [
             // { type: 'checkbox',title:'Check',class:'sub_chk',allowDeleteRow:true,width:120 },
             { type: 'hidden', title:'id',width:60 },
@@ -47,6 +47,7 @@ $(document).ready(function() {
                 type: "POST",
                 data:dat,
                 success: function(dataResult){
+                  $('#msg').html(dataResult);
                 }
               });
             }else{
@@ -60,7 +61,7 @@ $(document).ready(function() {
                 },
                 beforeSend: function() {
                   var temp = "<img src='<?php echo base_url("optimum/preloader.gif"); ?>' />";
-                  $('#overlay').show().html(temp).delay(200).fadeOut();
+                  $('#overlay').show().html(temp).delay(50).fadeOut();
                 },
                 success: function(dataResult){
                   if(dataResult == 1){
@@ -76,15 +77,12 @@ $(document).ready(function() {
                           id : cell1,
                           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php  echo $this->security->get_csrf_hash(); ?>'
                         }
-
-
                           $.ajax({
                           url: "<?php echo base_url('admin/ERC/update')?>",
                           type: "POST",
                           data:dat,
                           success: function(dataResult){
-
-                          console.log(dataResult);
+                            $('#msg').html(dataResult);
                           }
                         });
                     }
@@ -99,7 +97,7 @@ $(document).ready(function() {
                           type: "POST",
                           data:dat,
                           success: function(dataResult){
-                          console.log(dataResult);
+                          $('#msg').html(dataResult);
                           }
                         });
                     }

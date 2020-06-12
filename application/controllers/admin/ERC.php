@@ -7,8 +7,6 @@ class ERC extends CI_Controller {
         check_login_user();
        $this->load->model('common_model');
        $this->load->model('Erc_model');
-			 if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     }
     public function index()
     {
@@ -67,6 +65,7 @@ public function update()
     {
 
 				$id=$_POST['id'];
+				$status='';
 				if(isset($_POST['designName'])){
 					$data = array();
 					$data['desName'] =$_POST['designName'];
@@ -74,14 +73,20 @@ public function update()
 					$data['created_at'] = date('Y-m-d H:i:s');
 					//echo $data['desName'].$id;exit;
 					$data_value= $this->Erc_model->get_erc_name($data['desName']);
-				//	echo $data_value;exit;
-					if(isset($data_value))
+					// echo $data_value;exit;
+					if($data_value)
 					{
-	  			      $this->session->set_flashdata('msg','designName already exits ');
+						$status='Design already exits ';
+						echo "<h4 style='color:red'>".$status." !!<h4>";
 	  			 }
 					 else
 					{
-					   	$status = $this->Erc_model->Update($id,$data);
+						
+						   $status = $this->Erc_model->Update($id,$data);
+						   if($status=='true'){
+					echo "<h4 style='color:green'>Success !!<h4>";
+					}
+						   
 					}
 				}
 				if(isset($_POST['designCode'])){
@@ -90,6 +95,9 @@ public function update()
 					$data['updated_at'] = date('Y-m-d H:i:s');
 					$data['created_at'] = date('Y-m-d H:i:s');
 					$status = $this->Erc_model->Update($id,$data);
+					if($status=='true'){
+					echo "<h4 style='color:green'>Success !!<h4>";
+					}
 				}
 				if(isset($_POST['rate'])){
 					$data = array();
@@ -97,28 +105,15 @@ public function update()
 					$data['updated_at'] = date('Y-m-d H:i:s');
 					$data['created_at'] = date('Y-m-d H:i:s');
 					$status = $this->Erc_model->Update($id,$data);
-				}
-					$data['desName']=$this->Erc_model->get_design_value('erc');
-				// 			echo print_r($data['desName']);
-				  $designName=$data['desName']->desName;
-				  //echo $designName;
-
-				  if(isset($_POST['designCode'])){
-						$data = array();
-						$data['designCode'] =$_POST['designCode'];
-						// 			echo $data['designCode'].$designName;
-						$status = $this->Erc_model->Update_design($designName,$data);
-					}
-					if(isset($_POST['rate'])){
-						$data = array();
-						$data['rate'] =$_POST['rate'];
-
-						$status = $this->Erc_model->Update_design($designName,$data);
-					}
-
 					if($status=='true'){
-					echo "success";
+					echo "<h4 style='color:green'>Success !!<h4>";
 					}
+				}
+					
+
+				  
+						
+					
     }
 		public function add_erc(){
 

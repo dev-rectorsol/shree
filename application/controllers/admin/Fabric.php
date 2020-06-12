@@ -8,9 +8,6 @@
 				check_login_user();
         $this->load->model('Fabric_model');
 				$this->load->model('Hsn_model');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
-
     	}
 
 

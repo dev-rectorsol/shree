@@ -9,9 +9,6 @@
         parent::__construct();
 				check_login_user();
         $this->load->model('Order_type_model');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
-
     	}
 
 

@@ -234,7 +234,7 @@
         <div class="col-sm-9">
           <select name="job_work_type" class="form-control">
             <?php foreach ($job_type_name as $rec): ?>
-            <option value="<?php echo $rec->type; ?>"><?php echo $rec->type; ?></option>
+            <option value="<?php echo $rec->id; ?>"><?php echo $rec->type; ?></option>
           <?php endforeach;?>
           </select>
         </div>

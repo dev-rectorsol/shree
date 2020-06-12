@@ -27,7 +27,7 @@ class Common_model extends CI_Model {
         $this->db->delete($table, array('id' => $id));
         return;
     }
-    
+
     function select_value($id,$table){
         $this->db->select('*');
         $this->db->from($table);
@@ -76,10 +76,10 @@ class Common_model extends CI_Model {
         return $query;
     }
 
-    public function check_email($email){
+    public function check_user($username){
         $this->db->select('*');
-        $this->db->from('user');
-        $this->db->where('email', $email);
+        $this->db->from('users');
+        $this->db->where('username', $username);
         $this->db->limit(1);
         $query = $this->db->get();
         if($query->num_rows() == 1) {
@@ -354,13 +354,14 @@ class Common_model extends CI_Model {
 	{
 		$this->db->select('fabricType');
 		$this->db->where('fabricName', $fabricName);
-		$rec=$this->db->get('fabric');
+        $rec=$this->db->get('fabric');
+        // print_r($rec);exit;
 		return $rec->row();
 	}
 	public function user_name()
 	{
 		$this->db->select('*');
-		$rec=$this->db->get('user');
+		$rec=$this->db->get('users');
 		return $rec->result();
 	}
 	function get_user_role1(){

@@ -10,25 +10,24 @@
         $this->load->model('common_model');
         $this->load->library('barcode');
 			  $this->load->library('pdf');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
     	}
 
 
 
     	public function index(){
-	        $data = array();
-			$data['name']=' Design';
-	        $data['design_data']=$this->Design_model->get();
-            $data['febName']=$this->common_model->febric_name();
-            $data['febType']=$this->common_model->febric_type();
-			$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
-			$this->load->view('admin/index', $data);
+				$data = array();
+				$data['name']=' Design';
+				$data['design_data']=$this->Design_model->get();
+				$data['febName']=$this->common_model->febric_name();
+				$data['febType']=$this->common_model->febric_type();
+				$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
+				$this->load->view('admin/index', $data);
     	}
 
     	public function fabricOn(){
     	    if($_POST){
-    	       $data = $this->common_model->febric_type_byId($_POST['fabricName']);
+			   $data = $this->common_model->febric_type_byId($_POST['fabricName']);
+			//    print_r($data);exit;
     	       echo $data->fabricType;
     	    }
     	}
@@ -48,18 +47,19 @@
 				$this->load->library('upload', $config);
                 $this->upload->do_upload('designPic');
 				$img=$this->upload->data();
-                 // echo "<pre>";
-                 // print_r($img);
-                 // exit();
+                //  echo "<pre>";
+                //  print_r($img);
+                //  exit();
                          $pic=$img['file_name'];
+                
                         $lastId = $this->Design_model->getLastId();
 						$pre = explode("D", $lastId->barCode);
 						$newId = (int)($pre[1]) + 1;
 						$id = "D".(string)$newId;
+						
+						if(!empty($pic)){
 
-						if($pic!=''){
-
-    			$data=array(
+    					$data=array(
     				'designName'=>$_POST['designName'],
 
     				'designSeries'=>$_POST['designSeries'],

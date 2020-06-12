@@ -8,9 +8,6 @@
         parent::__construct();
 				check_login_user();
         $this->load->model('Branch_model');
-				if ($_SESSION['role']!=101)
-        	redirect(base_url('admin/Dashboard'));
-
     	}
 
 
@@ -71,7 +68,7 @@
                                 // echo print_r($value);exit;
                     $output .= "<tr id='tr_".$value['id']."'>";
                      $output .="<td><input type='checkbox' class='sub_chk' data-id=".$value['id']."></td>";
-                     
+
                     foreach ($value as $temp) {
                         $output .= "<td>".$temp."</td>";
                      }

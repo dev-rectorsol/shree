@@ -23,7 +23,7 @@ class Erc_model extends CI_Model {
  {
    $this->db->select('id,desName,desCode,rate');
    $this->db->from('erc');
-    //$this->db->order_by('desName','ASC');
+   $this->db->order_by('desName','ASC');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
