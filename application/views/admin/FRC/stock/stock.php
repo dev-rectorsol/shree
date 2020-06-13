@@ -20,7 +20,6 @@
                   <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
                     <div class="form-row">
                       <div class="col-2">
-
                         <input type="date" name="date_from" class="form-control form-control-sm"
                           value="<?php echo date('Y-m-01')?>">
                       </div>
@@ -33,7 +32,6 @@
 
                         <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                           <option value="">-- Select Category --</option>
-
                           <option value="parent_barcode">PBC</option>
                           <option value="fabricName">fabricName</option>
                           <option value="challan_no">Challan no</option>
@@ -118,7 +116,7 @@
                         <td>
                           <input type="text" name="current_stock" class="form-control form-control-sm" value=""
                             placeholder="Curr Qty"></td>
-                        
+
                         <td>
                           <input type="text" name="Color" class="form-control form-control-sm" value=""
                             placeholder="Color"></td>
@@ -218,7 +216,7 @@
 
 <script>
   $(document).ready(function () {
- 
+
   });
   jQuery('.print_all').on('click', function (e) {
     var allVals = [];

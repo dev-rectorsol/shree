@@ -32,13 +32,16 @@
 
                         <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                           <option value="">-- Select Category --</option>
-                          <option value="sub1">Party Name</option>
+                          <option value="parent_barcode">PBC</option>
+                          <option value="fabricName">fabricName</option>
                           <option value="challan_no">Challan no</option>
                           <option value="fabric_type">Fabric Type</option>
-                          <option value="challan_type">Challan Type</option>
-                          <option value="challan_from">Challan From</option>
-                          <option value="challan_to">Challan To</option>
-                          <option value="total_quantity">Quantity</option>
+                          <option value="color_name">Color </option>
+                          <option value="ad_no">Ad no</option>
+                          <option value="stock_quantity">Quantity</option>
+                          <option value="current_stock">Curr. Qty</option>
+                          <option value="stock_unit">Unit</option>
+                          <option value="purchase_rate">Rate</option>
                           <option value="total_amount">Total amount</option>
                         </select>
                       </div>
@@ -185,6 +188,9 @@
                 </div>
               </div>
               <hr>
+              <caption style='caption-side : top' class=" text-info">
+                <h6 class="text-center"> <?php echo $caption ; ?></h6>
+              </caption>
               <table class=" table-bordered data-table text-center table-responsive" id="frc">
                 <thead class="bg-dark text-white">
                   <tr class="odd" role="row">
@@ -223,7 +229,7 @@
                       </tr>
                     </thead>
                     <tbody><?php
-                                    foreach ($summary as $value) {
+                              foreach ($summary as $value) {
 
                                            ?><tr>
                         <td><?php echo $value['fabtype'];?></td>
@@ -237,7 +243,7 @@
                       <th></th>
 
                       <th>total</th>
-                      <th><?php echo $value['Tamount'];?></th>
+                       <th><?php echo $value['Tamount'];?></th>
                     </tr>
                   </table>
                 </div>

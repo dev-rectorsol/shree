@@ -8,7 +8,7 @@
 
                     <td><?php echo $value['sub1'];?></td>
                     <td><?php echo $value['challan_no'];?></td>
-                   
+
                     <td><?php echo $value['fabric_type'];?></td>
 
                     <td><?php echo $value['total_quantity']?></td>
@@ -21,7 +21,7 @@
                       </a>
 
                     </td>
-                    
+
                   </tr>
 
                   <?php $c=$c+1; } ?>

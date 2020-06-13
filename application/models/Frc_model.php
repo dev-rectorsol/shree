@@ -40,7 +40,7 @@ public function get($data)
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $data['type']);
    if($data['from']==$data['to']){
-    $this->db->where('fabric_challan.challan_date ', $data['from']); 
+    $this->db->where('fabric_challan.challan_date ', $data['from']);
    }else{
     $this->db->where('fabric_challan.challan_date >=', $data['from']);
    $this->db->where('fabric_challan.challan_date <=', $data['to']);
@@ -50,7 +50,7 @@ public function get($data)
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
-   
+
  }
  public function get_summary($data)
  {
@@ -59,94 +59,91 @@ public function get($data)
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $data['type']);
    if($data['from']==$data['to']){
-    $this->db->where('fabric_challan.challan_date ', $data['from']); 
+    $this->db->where('fabric_challan.challan_date ', $data['from']);
    }else{
     $this->db->where('fabric_challan.challan_date >=', $data['from']);
    $this->db->where('fabric_challan.challan_date <=', $data['to']);
    }
-  $this->db->group_by('fabric_type');
+   $this->db->group_by('fabric_type');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
-   
+
  }
+
  public function get_frc_by_id($id)
  {
    $this->db->select("fabric_challan.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('fabric_challan');
-   
+
    $this->db->where("fc_id", $id);
-  $this->db->join('sub_department sb1','sb1.id=fabric_challan.challan_from  ','left');
- $this->db->join('sub_department sb2','sb2.id=fabric_challan.challan_to  ','left');
+   $this->db->join('sub_department sb1','sb1.id=fabric_challan.challan_from  ','left');
+   $this->db->join('sub_department sb2','sb2.id=fabric_challan.challan_to  ','left');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
-   
+
  }
 public function get_by_id($id)
  {
    $this->db->select("*");
    $this->db->from('fabric_stock_received');
-  
+
    $this->db->where("fabric_challan_id", $id);
+
 $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
- 
- 
+
+
    $query = $this->db->get();//echo"<pre>"; print_r($query);exit;
    $query = $query->result_array();
    return $query;
-   
+
  }
 
- public function get_stock($data)
+ public function get_stock($table,$data)
  {
    $this->db->select("*");
-   $this->db->from('fabric_stock_received');
-   $this->db->where("isStock", 1);
+   $this->db->from($table);
+
    if($data['from']==$data['to']){
-    $this->db->where('fabric_stock_received.created_date ', $data['from']); 
+    $this->db->where('created_date ', $data['from']);
    }else{
-    $this->db->where('fabric_stock_received.created_date >=', $data['from']);
-   $this->db->where('fabric_stock_received.created_date <=', $data['to']);
+    $this->db->where('created_date >=', $data['from']);
+   $this->db->where('created_date <=', $data['to']);
    }
-$this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
- $this->db->order_by('length(parent_barcode),parent_barcode'); 
+
+ $this->db->order_by('length(parent_barcode),parent_barcode');
    $query = $this->db->get();
     //echo"<pre>"; print_r($query);exit;
    $query = $query->result_array();
    return $query;
-   
+
  }
   public function get_tc()
  {
    $this->db->select("*");
-   $this->db->from('fabric_stock_received');
-   $where = "(tc!='' OR tc!=0)  and isTc=0 and challan_type='recieve' ";
-    $this->db->or_where($where);
-    
-    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-    $this->db->group_by('parent_barcode');
+   $this->db->from('tc_view');
+
    $query = $this->db->get();
    //echo"<pre>"; print_r($query);exit;
    $query = $query->result_array();
    return $query;
-   
+
  }
  public function tc_summary()
  {
-   
-   $this->db->select("fabric_type as fabtype, fabric.fabricName as fabric,sum(current_stock)  as qty, sum(tc) as tc ");
-   $this->db->from('fabric_stock_received');
-    $where = "(tc!='' OR tc!=0)  and isTc=0 and challan_type='recieve' ";
-    $this->db->or_where($where);
-    $this->db->group_by('fabric.fabricName','fabric_type');
-    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-    
+
+   $this->db->select("fabric_type as fabtype, fabricName as fabric,sum(current_stock)  as qty, sum(tc) as tc ");
+   $this->db->from('tc_view');
+
+    $this->db->group_by('fabricName','fabric_type');
+
+
    $query = $this->db->get();
    //echo"<pre>"; print_r($query);exit;
    $query = $query->result_array();
    return $query;
-   
+
  }
  public function edit($id,$data)
  {
@@ -163,65 +160,57 @@ $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
  }
  public function search($data)
  {
-   //echo"<pre>";	print_r( $data); exit;
+  // echo"<pre>";	print_r( $data); exit;
                 if($data['type']=="recieve" || $data['type']=="return" ){
-                  $this->db->select('*');
+                $this->db->select('*','sb1.subDeptName as sub1');
                 $this->db->from('fabric_challan');
 
                 $this->db->like($data['cat'], $data['Value']);
                 $this->db->where("challan_type", $data['type']);
-                  $this->db->join('sub_department','sub_department.id=fabric_challan.challan_from','inner');
+                $this->db->join('sub_department sb1','sb1.id=fabric_challan.challan_from','inner');
                 }elseif($data['type']=="stock"){
                   $this->db->select('*');
-                $this->db->from('fabric_stock_received');
-                
+                $this->db->from('fabric_stock_view');
+
                 if(!is_array($data['cat']) ){
                   if($data['cat']!=""){
                     $this->db->where($data['cat'], $data['Value']);
                   }
-                  
+
                 }else{
                   $count =count($data['cat']);
                   for($i=0;$i<$count;$i++){
                     $this->db->like($data['cat'][$i], $data['Value'][$i]);
                   }
                 }
-                
-                 $this->db->where("isStock", 1);
-                  $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
                 }elseif($data['type']=="pbc"){
                   $this->db->select('*');
-                $this->db->from('fabric_stock_received');
+                $this->db->from('second_pbc_view');
                 $this->db->like($data['cat'], $data['Value']);
-                $this->db->where("isSecond",1);
-                $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-                $this->db->order_by('parent_barcode'); 
+
+                $this->db->order_by('parent_barcode');
                 }elseif($data['type']=="tc") {
                   $this->db->select("*");
-                $this->db->from('fabric_stock_received');
+                $this->db->from('tc_view');
                 $this->db->like($data['cat'], $data['Value']);
-                $where = "(tc!='' OR tc!=0)  ";
-                  $this->db->or_where($where);
-                  
-                  $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
+
                   $this->db->group_by('parent_barcode');
                   }
-   
    $rec=$this->db->get();
  //print_r($this->db->last_query());exit;
    return $rec->result_array();
-  
+
  }
- 
+
 
 public function select($table)
  {
    $this->db->select('*');
    $this->db->from($table);
-   
+
    $rec=$this->db->get();
    return $rec->result_array();
- 
+
 
  }
   public function get_fabric_recieve($id)
@@ -230,36 +219,34 @@ public function select($table)
     $this->db->from('fabric_challan');
     $this->db->where('fc_id',$id);
     $this->db->join('sub_department','sub_department.id=fabric_challan.challan_from','inner');
- 
+
     $rec=$this->db->get();
-    
+
     // print_r($this->db->last_query());
     return $rec->result_array();
   }
  public function select_PBC()
  {
    $this->db->select('*');
-   $this->db->from('fabric_stock_received');
-   $this->db->where("isSecond",1);
-   $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-   $this->db->order_by('parent_barcode','counter'); 
+   $this->db->from('second_pbc_view');
+
    $rec=$this->db->get();
-  // echo $this->db->last_query();exit;
+   //echo $this->db->last_query();exit;
    return $rec->result_array();
- 
+
 
  }
- 
+
  public function select_PBC_by_id($pbc)
  {
    $this->db->select('*');
    $this->db->from('fabric_stock_received');
    $this->db->where("fsr_id",$pbc);
-  
+
    $rec=$this->db->get();
   //  echo $this->db->last_query();exit;
    return $rec->result_array();
- 
+
 
  }
 public function getPBC_deatils($id)
@@ -269,23 +256,24 @@ public function getPBC_deatils($id)
    $this->db->where("parent_barcode",$id);
    $this->db->where("isStock",1);
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
    return $rec->result_array();
- 
+
 
  }
- public function getPBC_by_godown($id)
+ public function getPBC_by_godown($id,$from)
  {
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where("parent_barcode",$id);
    $this->db->where("isStock",1);
+   $this->db->where("fc.challan_to",$from);
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-$this->db->join('fabric_challan','fabric_challan.fc_id=fabric_stock_received.fabric_challan_id','inner');
-$rec=$this->db->get(); 
-//print_r($rec->result_array());exit;   
+$this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','inner');
+$rec=$this->db->get();
+//print_r($rec->result_array());exit;
    return $rec->result_array();
- 
+
 
  }
  public function getPBC_by_type($col,$id)
@@ -295,9 +283,9 @@ $rec=$this->db->get();
    $this->db->where($col,$id);
    $this->db->where("isStock",1);
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
    return $rec->result_array();
- 
+
 
  }
 public function getfabric_details($id)
@@ -306,32 +294,32 @@ public function getfabric_details($id)
    $this->db->from("fabric");
    $this->db->where("fabric.id",$id);
    $this->db->join('hsn','fabric.fabHsnCode=hsn.hsn_code','left');
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
   //  print_r($rec);exit;
    return $rec->result_array();
- 
 
- }	
+
+ }
 public function getCount($type)
  {
    $this->db->select('Max(counter) as count');
    $this->db->from("fabric_stock_received");
    $this->db->where("challan_type",$type);
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
   //  print_r($rec);exit;
    return $rec->result_array();
- 
 
- }	
+
+ }
 public function getId($type)
  {
    $this->db->select('Max(counter) as count');
    $this->db->from("fabric_challan");
     $this->db->where("challan_type", $type);
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
   //  print_r($rec);exit;
    return $rec->result_array();
- 
+
 
  }
  public function getCount_by_id($id)
@@ -340,21 +328,44 @@ public function getId($type)
    $this->db->from("fabric_stock_received");
    $this->db->where("parent",$id);
    $this->db->where("isSecond",1);
-   $rec=$this->db->get(); 
+   $rec=$this->db->get();
   //  print_r($rec);exit;
    return $rec->result_array();
- 
+
 
  }
 
- 
- 
+
+
 
   public function get_stock_value_by_id($id)
   {
-    $this->db->select('*');
+    $this->db->select('fabric_stock_received.fsr_id AS fsr_id,
+    fabric_stock_received.parent_barcode AS parent_barcode,
+    fabric_stock_received.parent AS parent,
+    fabric_stock_received.fabric_type AS fabric_type,
+    fabric_stock_received.hsn AS hsn,
+    fabric_stock_received.stock_quantity AS stock_quantity,
+    fabric_stock_received.current_stock AS current_stock,
+    fabric_stock_received.stock_unit AS stock_unit,
+    fabric_stock_received.challan_no AS challan_no,
+    fabric_stock_received.unit_id AS unit_id,
+    fabric_stock_received.color_name AS color_name,
+    fabric_stock_received.ad_no AS ad_no,
+    fabric_stock_received.purchase_code AS purchase_code,
+    fabric_stock_received.purchase_rate AS purchase_rate,
+    fabric_stock_received.total_value AS total_value,
+    fabric_stock_received.tc AS tc,
+    fabric_stock_received.challan_type AS challan_type,
+    fabric_stock_received.created_date AS created_date,
+    fabric.fabricName AS fabricName,
+    sb1.subDeptName AS challan_from,
+    sb2.subDeptName AS challan_to');
     $this->db->from('fabric_stock_received');
     $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
+    $this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','inner');
+    $this->db->join('sub_department sb1','sb1.id=fc.challan_from  ','left');
+    $this->db->join('sub_department sb2','sb2.id=fc.challan_to  ','left');
     $this->db->where('fsr_id',$id);
     $rec=$this->db->get(); //print_r($rec);exit;
     return $rec->row();

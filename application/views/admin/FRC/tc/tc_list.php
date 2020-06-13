@@ -3,39 +3,151 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
-        <div class="col-md-12 ">
-            <div class="card">
-                <div class="card-body">
-                    <form id="frcFilter">
-                        <div class="form-row">
-                            <div class="col-2">
-                                <h5>Filter by Category</h5>
-                            </div>
-                            <div class="col-4">
-                                <select id="searchByCat" name="searchByCat" class="form-control form-control-sm">
-                                    <option value="">-- Select Category --</option>
-                                    <option value="challan_date">Date </option>
-                                    <option value="challan_to">Party Name</option>
-                                    <option value="challan_no">Challan no</option>
-                                    <option value="fabric_type">Fabric Type</option>
-                                    <option value="total_amount">Total amount</option>
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <input type="text" name="searchValue" class="form-control form-control-sm" value=""
-                                    placeholder="Search">
-                            </div>
-                            <input type="hidden" name="type" value="recieve">
-                            <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
-                                value="<?=$this->security->get_csrf_hash();?>" />
-                            <button type="submit" class="btn btn-info btn-xs"> <i class="fas fa-search"></i>
-                                Search</button>
-                        </div>
-                    </form>
+      <div class="col-md-12 ">
+        <div class="card">
+          <div class="card-body">
 
+            <div id="accordion">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                    Simple filter
+                  </a>
                 </div>
+                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                  <div class="modal-body">
+                    <form action="<?php echo base_url('/admin/frc/Tc_filter'); ?>" method="post">
+                      <div class="form-row">
+                        <div class="col-2">
+                          <input type="date" name="date_from" class="form-control form-control-sm"
+                            value="<?php echo date('Y-m-01')?>">
+                        </div>
+                        <div class="col-2">
+
+                          <input type="date" name="date_to" class="form-control form-control-sm"
+                            value="<?php echo date('Y-m-d')?>">
+                        </div>
+                        <div class="col-2">
+
+                          <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
+                            <option value="">-- Select Category --</option>
+                            <option value="parent_barcode">PBC</option>
+                            <option value="fabricName">fabricName</option>
+                            <option value="challan_no">Challan no</option>
+                            <option value="fabric_type">Fabric Type</option>
+                            <option value="color_name">Color </option>
+                            <option value="ad_no">Ad no</option>
+                            <option value="stock_quantity">Quantity</option>
+                            <option value="current_stock">Curr. Qty</option>
+                            <option value="stock_unit">Unit</option>
+                            <option value="purchase_rate">Rate</option>
+                            <option value="total_amount">Total amount</option>
+                          </select>
+                        </div>
+                        <div class="col-2">
+
+                          <input type="text" name="searchValue" class="form-control form-control-sm" value=""
+                            placeholder="Search" required>
+                        </div>
+                        <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="simple">
+                        <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
+                          value="<?=$this->security->get_csrf_hash();?>" />
+                        <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i
+                            class="fas fa-search"></i> Search</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                    Advance filter
+                  </a>
+                </div>
+                <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                  <div class="modal-body">
+                    <form action="<?php echo base_url('/admin/frc/Tc_filter'); ?>" method="post">
+                      <table class=" remove_datatable">
+                        <caption>Advance Filter</caption>
+                        <thead>
+                          <tr>
+                            <th>Date_from</th>
+                            <th>Date_to</th>
+                            <th>Fabric_name</th>
+                            <th>PbC</th>
+                            <th>Challan</th>
+                            <th>Fab Type</th>
+                          </tr>
+                        </thead>
+                        <tr>
+                          <td>
+                            <input type="date" name="date_from" class="form-control form-control-sm"
+                              value="<?php echo date('Y-m-01')?>"></td>
+
+                          <td>
+                            <input type="date" name="date_to" class="form-control form-control-sm"
+                              value="<?php echo date('Y-m-d')?>"></td>
+
+                          <td><input type="text" name="fabricName" class="form-control form-control-sm" value=""
+                              placeholder="Fabric Name">
+                          </td>
+
+                          <td>
+                            <input type="text" name="pbc" class="form-control form-control-sm" value="" placeholder="PBC">
+                          </td>
+                          <td>
+                            <input type="text" name="challan" class="form-control form-control-sm" value=""
+                              placeholder="challan"></td>
+                          <td>
+                            <input type="text" name="fabric_type" class="form-control form-control-sm" value=""
+                              placeholder="Fab Type"></td>
+                        </tr>
+                        <th>Curr Qty</th>
+                        <th>Color</th>
+                        <th>Ad No</th>
+                        <th>Unit</th>
+                        <th>Rate</th>
+                        <th>Total</th>
+
+                        <tr>
+                          <td>
+                            <input type="text" name="current_stock" class="form-control form-control-sm" value=""
+                              placeholder="Curr Qty"></td>
+
+                          <td>
+                            <input type="text" name="Color" class="form-control form-control-sm" value=""
+                              placeholder="Color"></td>
+                          <td>
+                            <input type="text" name="Ad_No" class="form-control form-control-sm" value=""
+                              placeholder="Ad No"></td>
+                          <td>
+                            <input type="text" name="unit" class="form-control form-control-sm" value=""
+                              placeholder="Unit"></td>
+                          <td>
+                            <input type="text" name="rate" class="form-control form-control-sm" value=""
+                              placeholder="Rate"></td>
+                          <td>
+                            <input type="text" name="total" class="form-control form-control-sm" value=""
+                              placeholder="Total"></td>
+                        </tr>
+                      </table>
+                      <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="advance">
+                      <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
+                        value="<?=$this->security->get_csrf_hash();?>" />
+                      <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i
+                          class="fas fa-search"></i> Search</button>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
 
         <!-- **************** Product List *****************  -->
@@ -83,28 +195,22 @@
                             </div>
                             <hr>
                             <div class="row well">
-
                                 <div class="col-8">
                                     <table class=" table-bordered data-table text-center table-responsive" id="frc">
-                                        <thead class="bg-dark text-white">
+                                        <thead class=" ">
                                             <tr class="odd" role="row">
                                                 <th><input type="checkbox" class="sub_chk" id="master"></th>
                                                 <th>Date</th>
-
-
                                                 <th>Challan no</th>
-
-
                                                 <th>Quantity</th>
                                                 <th>Total PCS</th>
                                                 <th>Total tc</th>
-
                                                 <th>View</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
+                                          <?php
                                         $c=1;
                                         foreach ($frc_data as $value) { ?>
                                             <tr class="gradeU" id="tr_<?php echo $value['fc_id']?>">
@@ -113,22 +219,15 @@
                                                         data-id="<?php echo $value['fc_id'] ?>"></td>
                                                 <td><?php $date=date_create($value['challan_date']); echo date_format($date,"d-m-y "); ?>
                                                 </td>
-
-
                                                 <td><?php echo $value['challan_no'];?></td>
-
-
                                                 <td><?php echo $value['total_quantity']?></td>
                                                 <td><?php echo $value['total_pcs']?></td>
                                                 <td><?php echo $value['total_tc']?></td>
-
                                                 <td>
-
                                                     <a
                                                         href="<?php echo base_url('admin/FRC/viewtc/').$value['fc_id'] ?> ">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-
                                                 </td>
 
                                             </tr>
@@ -145,26 +244,23 @@
                                         <caption>Summary</caption>
                                         <thead class="bg-secondary text-white">
                                             <tr>
-                                                
+
 
                                                 <th>Quantity</th>
                                                 <th>Total tc</th>
                                             </tr>
                                         </thead>
-                                        <tbody><?php 
-                                    foreach ($summary as $value) {  
-                                     
-                                           ?><tr>
-                                               
+                                        <tbody>
+                                          <?php
+                                    foreach ($summary as $value) {
 
+                                           ?><tr>
                                                 <td><?php echo $value['qty'];?></td>
                                                 <td><?php echo $value['tc'];?></td>
                                             </tr>
                                             <?php }?>
                                         </tbody>
                                         <tr>
-                                            
-
                                             <th>total</th>
                                             <th><?php echo $value['Totaltc'];?></th>
                                         </tr>
