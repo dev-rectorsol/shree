@@ -17,7 +17,7 @@
               </div>
               <div id="collapseOne" class="collapse show" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/frc/recive_filter'); ?>" method="post">
+                  <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
                     <div class="form-row">
                       <div class="col-2">
                         <input type="date" name="date_from" class="form-control form-control-sm"
@@ -66,7 +66,7 @@
               </div>
               <div id="collapseTwo" class="collapse" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/frc/recive_filter'); ?>" method="post">
+                  <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
                     <table class=" remove_datatable">
                       <caption>Advance Filter</caption>
                       <thead>
@@ -185,32 +185,35 @@
                 </div>
               </div>
               <hr>
-              <table class=" table-bordered data-table text-center table-responsive" id="frc">
-                <thead class="bg-dark text-white">
-                  <tr class="odd" role="row">
-                    <th><input type="checkbox" class="sub_chk" id="master"></th>
-                    <th>Challan Date</th>
-
-                    <th>Challan no</th>
-                    <th>Doc Challan </th>
-                    <th>Challan Type</th>
-                    <th>Challan From </th>
-                    <th>Challan To</th>
-                    <th>Fabric Type</th>
-                    <th>Quantity</th>
-                    <th>Total amount</th>
-                    <th>View</th>
-                    <th>Option</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php  echo $content;?>
-                </tbody>
-              </table>
-              <hr>
               <div class="row well">
+                <div class="col-12">
+                  <table class=" table-bordered data-table text-center table-responsive" id="frc">
+                    <caption style='caption-side : top' class=" text-info">
+                      <h6 class="text-center"> <?php echo $caption ; ?></h6>
+                    </caption>
+                    <thead class="bg-dark text-white">
+                      <tr class="odd" role="row">
+                        <th><input type="checkbox" class="sub_chk" id="master"></th>
+                        <th>Challan Date</th>
 
-                <div class="col-8"> </div>
+                        <th>Challan no</th>
+                        <th>Doc Challan </th>
+                        <th>Challan Type</th>
+                        <th>Challan From </th>
+                        <th>Challan To</th>
+                        <th>Fabric Type</th>
+                        <th>Quantity</th>
+                        <th>Total amount</th>
+                        <th>View</th>
+                        <th>Option</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php  echo $content;?>
+                    </tbody>
+                  </table>
+                  <hr>
+                 </div>
                 <div class="col-4">
                   <table class=" table-bordered text-center remove_datatable">
                     <caption>Summary</caption>
@@ -241,7 +244,8 @@
                     </tr>
                   </table>
                 </div>
-              </div>
+
+            </div>
             </div>
           </div>
         </div>

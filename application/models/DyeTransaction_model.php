@@ -47,12 +47,10 @@ public function get($type)
    $this->db->select("*");
    $this->db->from('dye_transaction');
    $this->db->where("transaction_type", $type);
-  
- 
    $query = $this->db->get();
+  //print_r($this->db->last_query());exit;
    $query = $query->result_array();
    return $query;
-   
  }
 
  public function edit($id,$data)
@@ -70,19 +68,44 @@ public function get($type)
  }
  public function search($data)
  {
-   $this->db->select('fabric_challan.fc_id,fabric_challan.challan_date,branch_detail.sort_name, fabric_challan.challan_no,fabric_challan.fabric_type, fabric_challan.total_quantity,unit.unitName,fabric_challan.total_amount');
-   $this->db->from('fabric_challan');
+   if($data['type']=="issue"){
+   $this->db->select('*');
+   $this->db->from('dye_transaction');
+   if(!is_array($data['cat']) ){
+       if($data['cat']!=""){
+       $this->db->where($data['cat'], $data['Value']);
+     }
 
-   $this->db->like($data['cat'], $data['Value']);
-   $this->db->where("challan_type", $data['type']);
-    $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','inner');
- $this->db->join('unit','unit.id=fabric_challan.unit','inner');
+   }else{
+       $count =count($data['cat']);
+       for($i=0;$i<$count;$i++){
+       $this->db->like($data['cat'][$i], $data['Value'][$i]);
+     }
+   }
+   // $this->db->like($data['cat'], $data['Value']);
+   $this->db->where("transaction_type", $data['type']);
+
+ }
+ elseif($data['type']=="receive"){
+ $this->db->select('*');
+ $this->db->from('dye_transaction');
+ if(!is_array($data['cat']) ){
+     if($data['cat']!=""){
+     $this->db->where($data['cat'], $data['Value']);
+   }
+
+ }else{
+     $count =count($data['cat']);
+     for($i=0;$i<$count;$i++){
+     $this->db->like($data['cat'][$i], $data['Value'][$i]);
+   }
+ }
+ // $this->db->like($data['cat'], $data['Value']);
+ $this->db->where("transaction_type", $data['type']);
+}
    $rec=$this->db->get();
-  //  print_r($rec);
-  //  print_r($this->db->last_query());
+
    return $rec->result_array();
-   // print_r($searchValue);
-   
 
  }
  public function search_by_date($data)
@@ -92,15 +115,14 @@ public function get($type)
    $this->db->where('fabric_challan.challan_date >=', $data['from']);
    $this->db->where('fabric_challan.challan_date <=', $data['to']);
     $this->db->where("challan_type", $data['type']);
-   
     $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','inner');
- $this->db->join('unit','unit.id=fabric_challan.unit','inner');
+    $this->db->join('unit','unit.id=fabric_challan.unit','inner');
    $rec=$this->db->get();
   //  print_r($rec);
   //  print_r($this->db->last_query());
    return $rec->result_array();
    // print_r($searchValue);
-   
+
 
  }
 
@@ -108,10 +130,10 @@ public function select($table)
  {
    $this->db->select('*');
    $this->db->from($table);
-   
+
    $rec=$this->db->get();
    return $rec->result_array();
- 
+
 
  }
 public function getPBC_deatils($id)
@@ -124,10 +146,10 @@ public function getPBC_deatils($id)
    $this->db->join('unit','unit.id=fabric_stock_received.stock_unit','inner');
    $rec=$this->db->get();
    return $rec->result_array();
- 
 
- } 
- 
+
+ }
+
 
 }
 

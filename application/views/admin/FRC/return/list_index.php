@@ -1,3 +1,4 @@
+
 <?php
                                         $c=1;
                                         foreach ($frc_data as $value) { ?>
@@ -5,7 +6,6 @@
 
                     <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['fc_id'] ?>"></td>
                     <td><?php $date=date_create($value['challan_date']); echo date_format($date,"d-m-y "); ?></td>
-
                     <td><?php echo $value['sub1'];?></td>
                     <td><?php echo $value['challan_no'];?></td>
 

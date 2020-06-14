@@ -3,37 +3,149 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
- <div class="col-md-12 ">
-    <div class="card">
+      <div class="col-md-12 ">
+        <div class="card">
           <div class="card-body">
-            <form id="frcFilter">
-              <div class="form-row">
-                <div class="col-4">
-                  <select id="searchByCat" name="searchByCat" class="form-control">
-                    <option value="">-- Select Category --</option>
-                    <option value="challan_date">Date</option>
-                    <option value="parent_barcode">PBC</option>
-                    <option value="challan_no">color</option>
-                    <option value="fabric_type">Fabric Type</option>
-                    <option value="stock_quantity">stock_quantity</option>
-                    <option value="current_stock">current_stock</option>
-                    <option value="stock_unit">stock_unit</option>
-                  </select>
+
+            <div id="accordion">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                    Simple filter
+                  </a>
                 </div>
-                <div class="col-4">
-                  <input type="text" name="searchValue" class="form-control" value="" placeholder="Search"
-                    id="searchByValue">
+                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                  <div class="modal-body">
+                    <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
+                      <div class="form-row">
+                        <div class="col-2">
+                          <input type="date" name="date_from" class="form-control form-control-sm"
+                            value="<?php echo date('Y-m-01')?>">
+                        </div>
+                        <div class="col-2">
+
+                          <input type="date" name="date_to" class="form-control form-control-sm"
+                            value="<?php echo date('Y-m-d')?>">
+                        </div>
+                        <div class="col-2">
+
+                          <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
+                            <option value="">-- Select Category --</option>
+                            <option value="parent_barcode">PBC</option>
+                            <option value="fabricName">fabricName</option>
+                            <option value="color_name">Color </option>
+                            <option value="stock_quantity">Quantity</option>
+                            <option value="current_stock">Curr. Qty</option>
+                            <option value="stock_unit">Unit</option>
+                            <option value="purchase_rate">Rate</option>
+
+                          </select>
+                        </div>
+                        <div class="col-2">
+
+                          <input type="text" name="searchValue" class="form-control form-control-sm" value=""
+                            placeholder="Search" required>
+                        </div>
+                        <input type="hidden" name="type"value="pbc"><input type="hidden" name="search" value="simple">
+                        <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
+                          value="<?=$this->security->get_csrf_hash();?>" />
+                        <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i
+                            class="fas fa-search"></i> Search</button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-                 <input type="hidden" name="type" value="pbc" >
-                <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
-                  value="<?=$this->security->get_csrf_hash();?>" />
-                <button type="submit" class="btn btn-info"> <i class="fas fa-search"></i> Search</button>
               </div>
-            </form>
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                    Advance filter
+                  </a>
+                </div>
+                <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                  <div class="modal-body">
+                    <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
+                      <table class=" remove_datatable">
+                        <caption>Advance Filter</caption>
+                        <thead>
+                          <tr>
+                            <th>Date_from</th>
+                            <th>Date_to</th>
+                            <th>Fabric_name</th>
+                            <th>PbC</th>
+                            <th>Color</th>
+                          </tr>
+                        </thead>
+                        <tr>
+                          <td>
+                            <input type="date" name="date_from" class="form-control form-control-sm"
+                              value="<?php echo date('Y-m-01')?>"></td>
+
+                          <td>
+                            <input type="date" name="date_to" class="form-control form-control-sm"
+                              value="<?php echo date('Y-m-d')?>"></td>
+
+                          <td><input type="text" name="fabricName" class="form-control form-control-sm" value=""
+                              placeholder="Fabric Name">
+                          </td>
+
+                          <td>
+                            <input type="text" name="pbc" class="form-control form-control-sm" value="" placeholder="PBC">
+                          </td>
+
+                              <td>
+                                <input type="text" name="Color" class="form-control form-control-sm" value=""
+                                  placeholder="Color"></td>
+
+                        </tr>
+
+                        <th>Quantity</th>
+                        <th>Curr Qty</th>
+                        <th>Unit</th>
+                        <th>Rate</th>
+
+
+                        <tr>
+                          <td>
+                            <input type="text" name="stock_quantity" class="form-control form-control-sm" value=""
+                              placeholder=" Qty"></td>
+                          <td>
+                            <input type="text" name="current_stock" class="form-control form-control-sm" value=""
+                              placeholder="Curr Qty"></td>
+
+                          <td>
+                            <input type="text" name="unit" class="form-control form-control-sm" value=""
+                              placeholder="Unit"></td>
+                          <td>
+                            <input type="text" name="rate" class="form-control form-control-sm" value=""
+                              placeholder="Rate"></td>
+
+                        </tr>
+                      </table>
+                      <input type="hidden" name="type"value="pbc"><input type="hidden" name="search" value="advance">
+                      <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
+                        value="<?=$this->security->get_csrf_hash();?>" />
+                      <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i
+                          class="fas fa-search"></i> Search</button>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+
+
+
 
           </div>
         </div>
-</div>
+      </div>
+   </div>
         <!-- **************** Product List *****************  -->
         <div class="col-md-12 bg-white">
             <div class="card">
@@ -45,23 +157,23 @@
                       <div class="row well" >
                              <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
                              </div><div class="col-6">
-                            
-                               <form action="<?php echo base_url('/admin/frc/showRecieveList'); ?>" method="post">
-                           
+
+                               <form action="<?php echo base_url('/admin/frc/Show_PBC'); ?>" method="post">
+
                                 <div class="form-row " >
                                   <div class="col-5">
-                               <label>Date From</label> 
-                                    <input type="date" name="date_from" class="form-control" value="<?php echo $from?>" 
+                               <label>Date From</label>
+                                    <input type="date" name="date_from" class="form-control" value="<?php echo $from?>"
                                       >
                                   </div>
                                   <div class="col-5">
-                                <label>Date To</label>  
-                                    <input type="date" name="date_to" class="form-control" value="<?php echo $to?>" 
+                                <label>Date To</label>
+                                    <input type="date" name="date_to" class="form-control" value="<?php echo $to?>"
                                       >
                                   </div>
                                   <div class="col-2">
-                                   <label>Search</label>  
-                                   <input type="hidden" name="type" value="recieve" >
+                                   <label>Search</label>
+                                   <input type="hidden" name="type" value="pbc" >
                                   <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                                     value="<?=$this->security->get_csrf_hash();?>" />
                                   <button type="submit" class="btn btn-info"> <i class="fas fa-search"></i> Search</button>
@@ -69,14 +181,14 @@
                                 </div>
                               </form>
                             </div>
-                            </div> <hr> 
+                            </div> <hr>
                             <table class=" table-bordered data-table text-center table-responsive" id="frc">
-                                
-                                   <?php 
+
+                                   <?php
                                          echo $content;
-                                        
+
                                            ?>
-                               
+
                             </table>
                         </div>
                     </div>
@@ -137,7 +249,7 @@
 
      }
    }
- });   
+ });
 </script>
 
 <?php include('FRC_js.php');?>

@@ -17,7 +17,7 @@
                 </div>
                 <div id="collapseOne" class="collapse show" data-parent="#accordion">
                   <div class="modal-body">
-                    <form action="<?php echo base_url('/admin/frc/Tc_filter'); ?>" method="post">
+                    <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
                       <div class="form-row">
                         <div class="col-2">
                           <input type="date" name="date_from" class="form-control form-control-sm"
@@ -32,17 +32,13 @@
 
                           <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                             <option value="">-- Select Category --</option>
-                            <option value="parent_barcode">PBC</option>
-                            <option value="fabricName">fabricName</option>
-                            <option value="challan_no">Challan no</option>
-                            <option value="fabric_type">Fabric Type</option>
-                            <option value="color_name">Color </option>
-                            <option value="ad_no">Ad no</option>
-                            <option value="stock_quantity">Quantity</option>
-                            <option value="current_stock">Curr. Qty</option>
-                            <option value="stock_unit">Unit</option>
-                            <option value="purchase_rate">Rate</option>
-                            <option value="total_amount">Total amount</option>
+
+                            <option value="challan_no">Challan No</option>
+                            <option value="total_quantity">Quantity</option>
+                            <option value="total_pcs">Total PCS</option>
+                            <option value="total_tc">Total TC</option>
+
+
                           </select>
                         </div>
                         <div class="col-2">
@@ -50,7 +46,7 @@
                           <input type="text" name="searchValue" class="form-control form-control-sm" value=""
                             placeholder="Search" required>
                         </div>
-                        <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="simple">
+                        <input type="hidden" name="type" value="tc"><input type="hidden" name="search" value="simple">
                         <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                           value="<?=$this->security->get_csrf_hash();?>" />
                         <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i
@@ -69,17 +65,17 @@
                 </div>
                 <div id="collapseTwo" class="collapse" data-parent="#accordion">
                   <div class="modal-body">
-                    <form action="<?php echo base_url('/admin/frc/Tc_filter'); ?>" method="post">
+                    <form action="<?php echo base_url('/admin/frc/filter'); ?>" method="post">
                       <table class=" remove_datatable">
                         <caption>Advance Filter</caption>
                         <thead>
                           <tr>
                             <th>Date_from</th>
                             <th>Date_to</th>
-                            <th>Fabric_name</th>
-                            <th>PbC</th>
-                            <th>Challan</th>
-                            <th>Fab Type</th>
+                            <th>Challan No</th>
+                            <th>Quantity</th>
+                            <th>Total PCS</th>
+                            <th>Total TC</th>
                           </tr>
                         </thead>
                         <tr>
@@ -90,51 +86,26 @@
                           <td>
                             <input type="date" name="date_to" class="form-control form-control-sm"
                               value="<?php echo date('Y-m-d')?>"></td>
+                              <td><input type="text" name="challan" class="form-control form-control-sm" value=""
+                                  placeholder="Challan No">
+                              </td>
 
-                          <td><input type="text" name="fabricName" class="form-control form-control-sm" value=""
-                              placeholder="Fabric Name">
+                          <td><input type="text" name="total_quantity" class="form-control form-control-sm" value=""
+                              placeholder="Total Quantity">
                           </td>
 
                           <td>
-                            <input type="text" name="pbc" class="form-control form-control-sm" value="" placeholder="PBC">
+                            <input type="text" name="total_pcs" class="form-control form-control-sm" value="" placeholder="Total pcs">
                           </td>
-                          <td>
-                            <input type="text" name="challan" class="form-control form-control-sm" value=""
-                              placeholder="challan"></td>
-                          <td>
-                            <input type="text" name="fabric_type" class="form-control form-control-sm" value=""
-                              placeholder="Fab Type"></td>
-                        </tr>
-                        <th>Curr Qty</th>
-                        <th>Color</th>
-                        <th>Ad No</th>
-                        <th>Unit</th>
-                        <th>Rate</th>
-                        <th>Total</th>
 
-                        <tr>
-                          <td>
-                            <input type="text" name="current_stock" class="form-control form-control-sm" value=""
-                              placeholder="Curr Qty"></td>
+                              <td>
+                                <input type="text" name="total_tc" class="form-control form-control-sm" value=""
+                                  placeholder="total tc"></td>
 
-                          <td>
-                            <input type="text" name="Color" class="form-control form-control-sm" value=""
-                              placeholder="Color"></td>
-                          <td>
-                            <input type="text" name="Ad_No" class="form-control form-control-sm" value=""
-                              placeholder="Ad No"></td>
-                          <td>
-                            <input type="text" name="unit" class="form-control form-control-sm" value=""
-                              placeholder="Unit"></td>
-                          <td>
-                            <input type="text" name="rate" class="form-control form-control-sm" value=""
-                              placeholder="Rate"></td>
-                          <td>
-                            <input type="text" name="total" class="form-control form-control-sm" value=""
-                              placeholder="Total"></td>
                         </tr>
+
                       </table>
-                      <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="advance">
+                      <input type="hidden" name="type" value="tc"><input type="hidden" name="search" value="advance">
                       <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                         value="<?=$this->security->get_csrf_hash();?>" />
                       <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i
@@ -144,12 +115,17 @@
                   </div>
                 </div>
               </div>
+
+
+
             </div>
+
+
+
+
           </div>
         </div>
       </div>
-
-
         <!-- **************** Product List *****************  -->
         <div class="col-md-12 bg-white">
             <div class="card">
@@ -168,7 +144,7 @@
                                 </div>
                                 <div class="col-6">
 
-                                    <form action="<?php echo base_url('/admin/frc/showRecieveList'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/frc/show_tc'); ?>" method="post">
 
                                         <div class="form-row ">
                                             <div class="col-5">
@@ -183,7 +159,7 @@
                                             </div>
                                             <div class="col-2">
                                                 <label>Search</label>
-                                                <input type="hidden" name="type" value="recieve">
+                                                <input type="hidden" name="type" value="tc">
                                                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
                                                     value="<?=$this->security->get_csrf_hash();?>" />
                                                 <button type="submit" class="btn btn-info btn-xs"> <i
@@ -196,6 +172,9 @@
                             <hr>
                             <div class="row well">
                                 <div class="col-8">
+                                  <caption style='caption-side : top' class=" text-info">
+                                    <h6 class="text-center"> <?php echo $caption ; ?></h6>
+                                  </caption>
                                     <table class=" table-bordered data-table text-center table-responsive" id="frc">
                                         <thead class=" ">
                                             <tr class="odd" role="row">

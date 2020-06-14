@@ -173,8 +173,13 @@
               </div>
               <hr>
               <div class="row well">
+
               <div class="col-8">
+
               <table class=" table table-bordered  text-center table-responsive">
+                <caption style='caption-side : top' class=" text-info">
+                  <h6 class="text-center"> <?php echo $caption ; ?></h6>
+                </caption>
                 <thead>
                   <tr class="odd" role="row">
                     <th><input type="checkbox" class="sub_chk" id="master"></th>
@@ -192,7 +197,7 @@
 
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="frc">
                   <?php  echo $content;?>
                 </tbody>
               </table>

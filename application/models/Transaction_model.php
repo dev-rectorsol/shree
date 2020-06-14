@@ -44,15 +44,17 @@ public function get_godown($id)
  }
 public function get($type)
  {
+   //echo $type;
    $this->db->select("*");
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $type);
-  $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_from','inner');
- $this->db->join('unit','unit.id=fabric_challan.unit','inner');
+   $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_from','inner');
+   $this->db->join('unit','unit.id=fabric_challan.unit','inner');
    $query = $this->db->get();
+   //echo $this->db->last_query();
    $query = $query->result_array();
+
    return $query;
-   
  }
 
  public function edit($id,$data)
@@ -72,19 +74,45 @@ public function get($type)
  {
    $this->db->select('fabric_challan.fc_id,fabric_challan.challan_date,branch_detail.sort_name, fabric_challan.challan_no,fabric_challan.fabric_type, fabric_challan.total_quantity,unit.unitName,fabric_challan.total_amount');
    $this->db->from('fabric_challan');
-
    $this->db->like($data['cat'], $data['Value']);
    $this->db->where("challan_type", $data['type']);
     $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','inner');
- $this->db->join('unit','unit.id=fabric_challan.unit','inner');
+   $this->db->join('unit','unit.id=fabric_challan.unit','inner');
    $rec=$this->db->get();
   //  print_r($rec);
   //  print_r($this->db->last_query());
    return $rec->result_array();
    // print_r($searchValue);
-   
+ }
+
+ public function search1($data)
+ {
+   if($data['type']=="recieve" || $data['type']=="return" ){
+     $this->db->select("*");
+     $this->db->from('fabric_challan');
+     $this->db->where("challan_type", $data['type']);
+     $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_from','inner');
+     $this->db->join('unit','unit.id=fabric_challan.unit','inner');
+    if(!is_array($data['cat']) ){
+       if($data['cat']!=""){
+       $this->db->where($data['cat'], $data['Value']);
+     }
+
+   }else{
+       $count =count($data['cat']);
+       for($i=0;$i<$count;$i++){
+       $this->db->like($data['cat'][$i], $data['Value'][$i]);
+     }
+   }
 
  }
+   $rec=$this->db->get();
+//echo $this->db->last_query($rec);exit;
+   return $rec->result_array();
+
+ }
+
+
  public function search_by_date($data)
  {
    $this->db->select('fabric_challan.fc_id,fabric_challan.challan_date,branch_detail.sort_name, fabric_challan.challan_no,fabric_challan.fabric_type, fabric_challan.total_quantity,unit.unitName,fabric_challan.total_amount');
@@ -92,7 +120,7 @@ public function get($type)
    $this->db->where('fabric_challan.challan_date >=', $data['from']);
    $this->db->where('fabric_challan.challan_date <=', $data['to']);
     $this->db->where("challan_type", $data['type']);
-   
+
     $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','inner');
  $this->db->join('unit','unit.id=fabric_challan.unit','inner');
    $rec=$this->db->get();
@@ -100,7 +128,7 @@ public function get($type)
   //  print_r($this->db->last_query());
    return $rec->result_array();
    // print_r($searchValue);
-   
+
 
  }
 
@@ -108,10 +136,10 @@ public function select($table)
  {
    $this->db->select('*');
    $this->db->from($table);
-   
+
    $rec=$this->db->get();
    return $rec->result_array();
- 
+
 
  }
 public function getOBC_deatils($id)
@@ -122,20 +150,20 @@ public function getOBC_deatils($id)
    $this->db->where("product_order_id",$id );
    $rec=$this->db->get();
    return $rec->result_array();
- 
 
- } 
+
+ }
  public function getPBC()
  {
    $this->db->select('parent_barcode');
    $this->db->from("fabric_stock_received");
-  
-   
+
+
    $rec=$this->db->get();
    return $rec->result_array();
- 
 
- } 
+
+ }
 
 }
 

@@ -66,6 +66,7 @@ public function get($data)
    }
    $this->db->group_by('fabric_type');
    $query = $this->db->get();
+   //print_r($this->db->last_query($query));exit;
    $query = $query->result_array();
    return $query;
 
@@ -160,12 +161,21 @@ $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
  }
  public function search($data)
  {
-  // echo"<pre>";	print_r( $data); exit;
+   //echo"<pre>";	print_r( $data); exit;
                 if($data['type']=="recieve" || $data['type']=="return" ){
-                $this->db->select('*','sb1.subDeptName as sub1');
+                 $this->db->select("fabric_challan.*,sb1.subDeptName as sub1");
                 $this->db->from('fabric_challan');
+                if(!is_array($data['cat']) ){
+                    if($data['cat']!=""){
+                    $this->db->where($data['cat'], $data['Value']);
+                  }
 
-                $this->db->like($data['cat'], $data['Value']);
+                }else{
+                    $count =count($data['cat']);
+                    for($i=0;$i<$count;$i++){
+                    $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                  }
+                }
                 $this->db->where("challan_type", $data['type']);
                 $this->db->join('sub_department sb1','sb1.id=fabric_challan.challan_from','inner');
                 }elseif($data['type']=="stock"){
@@ -183,21 +193,43 @@ $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
                     $this->db->like($data['cat'][$i], $data['Value'][$i]);
                   }
                 }
+
                 }elseif($data['type']=="pbc"){
-                  $this->db->select('*');
+                $this->db->select('*');
                 $this->db->from('second_pbc_view');
-                $this->db->like($data['cat'], $data['Value']);
+                if(!is_array($data['cat']) ){
+                  if($data['cat']!=""){
+                    $this->db->where($data['cat'], $data['Value']);
+                  }
+
+                }else{
+                  $count =count($data['cat']);
+                  for($i=0;$i<$count;$i++){
+                    $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                  }
+                }
 
                 $this->db->order_by('parent_barcode');
+
+
                 }elseif($data['type']=="tc") {
                   $this->db->select("*");
-                $this->db->from('tc_view');
-                $this->db->like($data['cat'], $data['Value']);
+                $this->db->from('fabric_challan');
+                if(!is_array($data['cat']) ){
+                  if($data['cat']!=""){
+                    $this->db->where($data['cat'], $data['Value']);
+                  }
 
-                  $this->db->group_by('parent_barcode');
+                }else{
+                  $count =count($data['cat']);
+                  for($i=0;$i<$count;$i++){
+                    $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                  }
+                }
+                  // $this->db->group_by('parent_barcode');
                   }
    $rec=$this->db->get();
- //print_r($this->db->last_query());exit;
+   //print_r($this->db->last_query());exit;
    return $rec->result_array();
 
  }
