@@ -139,7 +139,30 @@ public function get_fab_name_value()
    }
  }
 
+ public function search1($data)
+  {
+    //echo"<pre>";	print_r( $data); exit;
+                 if($data['type']=="src"){
+                   $this->db->select('id,fabName,purchase,fabCode,sale_rate');
+                   $this->db->from('src');
+                 if(!is_array($data['cat']) ){
+                     if($data['cat']!=""){
+                     $this->db->where($data['cat'], $data['Value']);
+                   }
 
+                 }else{
+                     $count =count($data['cat']);
+                     for($i=0;$i<$count;$i++){
+                     $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                   }
+                 }
+
+                 }
+    $rec=$this->db->get();
+    //print_r($this->db->last_query());exit;
+    return $rec->result_array();
+
+  }
 
 
 }

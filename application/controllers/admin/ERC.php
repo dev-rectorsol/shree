@@ -10,21 +10,19 @@ class ERC extends CI_Controller {
     }
     public function index()
     {
-        $data = array();
-        $data['name'] = 'ERC';
+    $data = array();
+    $data['name'] = 'ERC';
 		$data['designname'] = $this->Erc_model->get_design_name();
 		$data['fresh_designname'] = $this->Erc_model->get_design_fresh_value();
 
-        $data['main_content'] = $this->load->view('admin/master/erc/erc', $data, TRUE);
-        $this->load->view('admin/index', $data);
+    $data['main_content'] = $this->load->view('admin/master/erc/erc', $data, TRUE);
+    $this->load->view('admin/index', $data);
     }
     public function getlist()
     {
-
 		$designname = $this->Erc_model->get_design();
 		header('Content-type: application/json');
 		echo json_encode($designname);
-
 	}
 
 	 public function getDesignName()
@@ -65,6 +63,7 @@ public function update()
     {
 
 				$id=$_POST['id'];
+				$status='';
 				if(isset($_POST['designName'])){
 					$data = array();
 					$data['desName'] =$_POST['designName'];
@@ -72,14 +71,20 @@ public function update()
 					$data['created_at'] = date('Y-m-d H:i:s');
 					//echo $data['desName'].$id;exit;
 					$data_value= $this->Erc_model->get_erc_name($data['desName']);
-				//	echo $data_value;exit;
-					if(isset($data_value))
+					// echo $data_value;exit;
+					if($data_value)
 					{
-	  			      $this->session->set_flashdata('msg','designName already exits ');
+						$status='Design already exits ';
+						echo "<h4 style='color:red'>".$status." !!<h4>";
 	  			 }
 					 else
 					{
-					   	$status = $this->Erc_model->Update($id,$data);
+
+						   $status = $this->Erc_model->Update($id,$data);
+						   if($status=='true'){
+					echo "<h4 style='color:green'>Success !!<h4>";
+					}
+
 					}
 				}
 				if(isset($_POST['designCode'])){
@@ -88,6 +93,9 @@ public function update()
 					$data['updated_at'] = date('Y-m-d H:i:s');
 					$data['created_at'] = date('Y-m-d H:i:s');
 					$status = $this->Erc_model->Update($id,$data);
+					if($status=='true'){
+					echo "<h4 style='color:green'>Success !!<h4>";
+					}
 				}
 				if(isset($_POST['rate'])){
 					$data = array();
@@ -95,28 +103,15 @@ public function update()
 					$data['updated_at'] = date('Y-m-d H:i:s');
 					$data['created_at'] = date('Y-m-d H:i:s');
 					$status = $this->Erc_model->Update($id,$data);
-				}
-					$data['desName']=$this->Erc_model->get_design_value('erc');
-				// 			echo print_r($data['desName']);
-				  $designName=$data['desName']->desName;
-				  //echo $designName;
-
-				  if(isset($_POST['designCode'])){
-						$data = array();
-						$data['designCode'] =$_POST['designCode'];
-						// 			echo $data['designCode'].$designName;
-						$status = $this->Erc_model->Update_design($designName,$data);
-					}
-					if(isset($_POST['rate'])){
-						$data = array();
-						$data['rate'] =$_POST['rate'];
-
-						$status = $this->Erc_model->Update_design($designName,$data);
-					}
-
 					if($status=='true'){
-					echo "success";
+					echo "<h4 style='color:green'>Success !!<h4>";
 					}
+				}
+
+
+
+
+
     }
 		public function add_erc(){
 
@@ -157,5 +152,69 @@ public function update()
 						echo json_encode(array('error'=>true, 'msg'=>'somthing want wrong :('));
 				}
 		}
+
+		public function filter1()
+						{
+							$data1=array();
+							$this->security->xss_clean($_POST);
+										if ($_POST) {
+							//	echo"<pre>";	print_r($_POST); exit;
+									$data1['from']=$this->input->post('date_from');
+									$data1['to']=$this->input->post('date_to');
+									$data1['search']=$this->input->post('search');
+									$data1['type']=$this->input->post('type');
+									$data['from']=$data1['from'];
+									$data['to']=$data1['to'];
+									$data['type']=$data1['type'];
+									$caption='Search Result For : ';
+											if($data1['search']=='simple'){
+												if($_POST['searchByCat']!="" || $_POST['searchValue']!=""){
+													$data1['cat']=$this->input->post('searchByCat');
+													$data1['Value']=$this->input->post('searchValue');
+													$caption=$caption.$data1['cat']." = ".$data1['Value']." ";
+												}
+									$data['src']=$this->Erc_model->search1($data1);
+
+						}else{
+						if(isset($_POST['desName']) && $_POST['desName']!="" ){
+							$data1['cat'][]='desName';
+							$fab=$this->input->post('desName');
+							$data1['Value'][]=$fab;
+							$caption=$caption.'desName'." = ".$fab." ";
+							}
+							if(isset($_POST['desCode']) && $_POST['desCode']!="" ){
+								$data1['cat'][]='desCode';
+									$fab=$this->input->post('desCode');
+								$data1['Value'][]=$fab;
+								$caption=$caption.'desCode '." = ".$fab." ";
+								}
+								if(isset($_POST['rate']) && $_POST['rate']!="" ){
+									 $data1['cat'][]='rate';
+										$fab=$this->input->post('rate');
+									 $data1['Value'][]=$fab;
+									$caption=$caption.'rate'." = ".$fab." ";
+									}
+
+
+							$data['src']=$this->Erc_model->search1($data1);
+						}
+							if($data1['type']=='erc'){
+								$data['caption']=$caption;
+								$data['designname'] = $this->Erc_model->get_design_name();
+	 		 		      $data['fresh_designname'] = $this->Erc_model->get_design_fresh_value();
+
+	 		          $data['main_content'] = $this->load->view('admin/master/erc/erc_details', $data, TRUE);
+								$this->load->view('admin/index', $data);
+							}
+											else{
+												 $data['main_content'] = $this->load->view('admin/FRC/stock/search');
+												 $this->load->view('admin/index', $data);
+											}
+
+
+								}
+						}
+
+
 
   }

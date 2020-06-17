@@ -165,4 +165,72 @@ public function update()
 			echo $id;
 		}
 
+		public function filter1()
+					{
+						$data1=array();
+						$this->security->xss_clean($_POST);
+									if ($_POST) {
+						//	echo"<pre>";	print_r($_POST); exit;
+								$data1['from']=$this->input->post('date_from');
+								$data1['to']=$this->input->post('date_to');
+								$data1['search']=$this->input->post('search');
+								$data1['type']=$this->input->post('type');
+								$data['from']=$data1['from'];
+								$data['to']=$data1['to'];
+								$data['type']=$data1['type'];
+								$caption='Search Result For : ';
+										if($data1['search']=='simple'){
+											if($_POST['searchByCat']!="" || $_POST['searchValue']!=""){
+												$data1['cat']=$this->input->post('searchByCat');
+												$data1['Value']=$this->input->post('searchValue');
+												$caption=$caption.$data1['cat']." = ".$data1['Value']." ";
+											}
+								$data['src']=$this->Src_model->search1($data1);
+
+					}else{
+					if(isset($_POST['fabName']) && $_POST['fabName']!="" ){
+						$data1['cat'][]='fabName';
+						$fab=$this->input->post('fabName');
+						$data1['Value'][]=$fab;
+						$caption=$caption.' fabName'." = ".$fab." ";
+						}
+						if(isset($_POST['purchase']) && $_POST['purchase']!="" ){
+							$data1['cat'][]='purchase';
+								$fab=$this->input->post('purchase');
+							$data1['Value'][]=$fab;
+							$caption=$caption.'purchase '." = ".$fab." ";
+							}
+							if(isset($_POST['fabCode']) && $_POST['fabCode']!="" ){
+								 $data1['cat'][]='fabCode';
+									$fab=$this->input->post('fabCode');
+								 $data1['Value'][]=$fab;
+								$caption=$caption.'fabCode'." = ".$fab." ";
+								}
+								if(isset($_POST['sale_rate']) && $_POST['sale_rate']!="" ){
+								$data1['cat'][]='sale_rate';
+								$fab=$this->input->post('sale_rate');
+								$data1['Value'][]=$fab;
+								$caption=$caption.'sale_rate'." = ".$fab." ";
+								}
+
+						$data['src']=$this->Src_model->search1($data1);
+					}
+						if($data1['type']=='src'){
+							$data['caption']=$caption;
+							$data['febName'] = $this->Src_model->get_fabric_name();
+							$data['fresh_fabricname'] = $this->Src_model->get_fabric_fresh_value();
+							//echo print_r($data['$febName']);exit;
+			        $data['main_content'] = $this->load->view('admin/master/src/src_details', $data, TRUE);
+							$this->load->view('admin/index', $data);
+						}
+										else{
+											 $data['main_content'] = $this->load->view('admin/FRC/stock/search');
+											 $this->load->view('admin/index', $data);
+										}
+
+
+							}
+					}
+
+
   }
