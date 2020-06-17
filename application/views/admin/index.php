@@ -156,13 +156,14 @@
               <li class="sidebar-item"><a href="<?php echo base_url('admin/job_work_party'); ?>" class="sidebar-link"><i class="fas fa-briefcase"></i><span class="hide-menu"> Job Work Party </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/job_work_type'); ?>" class="sidebar-link"><i class="fas fa-briefcase"></i><span class="hide-menu"> Job Work Type </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/department'); ?>" class="sidebar-link"><i class="fas fa-shekel-sign"></i><span class="hide-menu"> Department </span></a></li>
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/sub_department'); ?>" class="sidebar-link"><i class="fas fa-shekel-sign"></i><span class="hide-menu"> Warehouse </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/sub_department'); ?>" class="sidebar-link"><i class="fas fa-shekel-sign"></i><span class="hide-menu"> Godown </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/hsn'); ?>" class="sidebar-link"><i class="fas fa-barcode"></i><span class="hide-menu"> HSN </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/fabric'); ?>" class="sidebar-link"><i class="fab fa-deskpro"></i><span class="hide-menu"> Fabric </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/design'); ?>" class="sidebar-link"><i class=" fas fa-pencil-alt"></i><span class="hide-menu"> Design </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/ERC'); ?>" class="sidebar-link"><i class="fa-meetup"></i><span class="hide-menu"> ERC </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/SRC'); ?>" class="sidebar-link"><i class="fa fa-podcast"></i><span class="hide-menu"> SRC </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/EMB'); ?>" class="sidebar-link"><i class="fa fa-podcast"></i><span class="hide-menu"> EMBJWR </span></a></li>
+             <li class="sidebar-item"><a href="<?php echo base_url('admin/Cause'); ?>" class="sidebar-link"> <i class="fab fa-uniregistry"></i><span class="hide-menu"> Cause</span></a></li>
 
               <li class="sidebar-item"><a href="<?php echo base_url('admin/session_year'); ?>" class="sidebar-link"> <i class="fas fa-calendar"></i><span class="hide-menu"> Session</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Order_type'); ?>" class="sidebar-link"> <i class="fab fa-first-order"></i><span class="hide-menu"> Order Type</span></a></li>
@@ -176,6 +177,38 @@
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/order_flow'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> ORDER FLOW </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Show Order </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Orders/addOrders'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Order </span></a></li>
+            </ul>
+          </li>
+          <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">FRC</span></a>
+            <ul aria-expanded="false" class="collapse  first-level">
+            <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/showRecieve'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Recieve Challan </span></a></li>
+            <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/showRecieveList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Recieve Challan List </span></a></li>
+          <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Return Challan </span></a></li>
+          <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/showReturnList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Return Challan List </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/AddPBC'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu">ADD 2nd PBC </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/Show_PBC'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> 2nd PBC List </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/add_tc_list'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> TC ADD </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/show_tc'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> TC List </span></a></li>
+
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/show_stock'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Stock of plain fabric </span></a></li>
+            </ul>
+          </li>
+            <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dye Transaction</span></a>
+            <ul aria-expanded="false" class="collapse  first-level">
+            <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Issue Transaction </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showReturnList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Issue Transaction List </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showRecieve'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Recieve Transaction </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showRecieveList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Recieve Transaction List </span></a></li>
+
+            </ul>
+          </li>
+          <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Transaction</span></a>
+            <ul aria-expanded="false" class="collapse  first-level">
+            <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Challan Transaction </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction/showRecieveList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Challan Transaction List </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction/showRecieve'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Bill Transaction </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction/showRecieveList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Bill Transaction List </span></a></li>
+
             </ul>
           </li>
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/FDA'); ?>" aria-expanded="false"><i class="mdi mdi-lumx"></i><span class="hide-menu">Fabric design

@@ -131,6 +131,31 @@ public function get_design_name()
    // print_r($this->db->last_query());
 
  }
+ public function search1($data)
+  {
+    ///echo"<pre>";	print_r( $data); exit;
+                 if($data['type']=="erc"){
+                   $this->db->select('id,desName,desCode,rate');
+                   $this->db->from('erc');
+                 if(!is_array($data['cat']) ){
+                     if($data['cat']!=""){
+                     $this->db->where($data['cat'], $data['Value']);
+                   }
+
+                 }else{
+                     $count =count($data['cat']);
+                     for($i=0;$i<$count;$i++){
+                     $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                   }
+                 }
+
+                 }
+    $rec=$this->db->get();
+    //print_r($this->db->last_query());exit;
+    return $rec->result_array();
+
+  }
+
 
 
 

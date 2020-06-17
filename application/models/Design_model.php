@@ -8,12 +8,20 @@ class Design_model extends CI_Model {
 		// print_r($data); exit();
 		$this->db->insert('design', $data);
 	}
-	public function get()
+	public function get($limit, $start)
 	{
-    $sql = 'SELECT * FROM design_view';
-		$rec=$this->db->query($sql);
+    $this->db->limit($limit, $start);
+    $this->db->select('*');
+		$this->db->from('design_view');
+
+    $rec=$this->db->get();
+    // print_r($this->db->last_query());exit;
+
 		return $rec->result();
-	}
+  }
+  public function get_count() {
+        return $this->db->count_all('design_view');
+    }
 	public function edit($id,$data)
 	{
 		$this->db->where('id', $id);
@@ -39,7 +47,7 @@ class Design_model extends CI_Model {
   public function get_single_value_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('design');
+    $this->db->from('design_view');
     // $this->db->like($searchByCat, $searchValue);
     $this->db->where('id',$id);
     $rec=$this->db->get();
@@ -52,7 +60,7 @@ class Design_model extends CI_Model {
     public function get_multi_value_by_id($id)
   {
     $this->db->select('*');
-    $this->db->from('design');
+    $this->db->from('design_view');
     $this->db->where('id',$id);
     $rec=$this->db->get();
     return $rec->row();
@@ -95,7 +103,6 @@ class Design_model extends CI_Model {
   //
   //    return 1;
   // }
-
   function select_value($table,$id){
     // echo $id.$table;exit;
         $this->db->select('*');
@@ -118,12 +125,56 @@ class Design_model extends CI_Model {
 function getLastId(){
     			$this->db->select("barCode");
     			$this->db->from('design');
-    			$this->db->order_by('barCode','DESC');
+    			$this->db->order_by('id','DESC');
     			$this->db->limit(1);
     			$query = $this->db->get();
     			$query = $query->row();
     			return $query;
     		}
+
+        // write by arti
+                public function search1($data)
+                {
+                  if($data['type']=="design"){
+                      $this->db->select('*');
+                      $this->db->from('design_view');
+                      if(!is_array($data['cat']) ){
+                          if($data['cat']!=""){
+                          $this->db->where($data['cat'], $data['Value']);
+                        }
+
+                      }else{
+                          $count =count($data['cat']);
+                          for($i=0;$i<$count;$i++){
+                          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                        }
+                      }
+
+                }elseif($data['type']=="show_details"){
+                  $this->db->select('*');
+                  $this->db->from('order_table');
+                  $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
+               if(!is_array($data['cat']) ){
+                  if($data['cat']!=""){
+                  $this->db->where($data['cat'], $data['Value']);
+                }
+
+              }else{
+                  $count =count($data['cat']);
+                  for($i=0;$i<$count;$i++){
+                  $this->db->like($data['cat'][$i], $data['Value'][$i]);
+                }
+              }
+                }
+                  $rec=$this->db->get();
+               //echo $this->db->last_query($rec);exit;
+                  return $rec->result();
+
+                }
+              //end arti
+
+
+
 
 }
 

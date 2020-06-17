@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
+   
     $( window ).on("load", function() {
         get_list();
       });
@@ -21,6 +22,7 @@
         }
       });
     }
+    
     $('#asign').on('click', function(event) {
       event.preventDefault();
       var selected = [];
@@ -104,7 +106,7 @@
         $("#show").html('');
       }
     });
-
+ 
     $("#fda_value span").click(function(event) {
       // alert('ok');
       var fabric_id = $(this).attr('id');

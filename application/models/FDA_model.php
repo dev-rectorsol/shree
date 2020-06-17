@@ -95,6 +95,50 @@ class FDA_model extends CI_Model {
    // print_r($this->db->last_query());
 
  }
+ // write by arti
+  			public function search1($data)
+  		  {
+  		    if($data['type']=="show"){
+           $this->db->select('id,  count(design_id) AS dcount, fabric_name, fabric_type, asign_date');
+           $this->db->from('fda_table');
+           $this->db->group_by('fabric_name');
+  		     if(!is_array($data['cat']) ){
+  		        if($data['cat']!=""){
+  		        $this->db->where($data['cat'], $data['Value']);
+  		      }
+
+  		    }else{
+  		        $count =count($data['cat']);
+  		        for($i=0;$i<$count;$i++){
+  		        $this->db->like($data['cat'][$i], $data['Value'][$i]);
+  		      }
+  		    }
+
+  		  }elseif($data['type']=="show_details"){
+         $this->db->select('design.id, design.designName, erc.desCode, erc.rate, design.stitch, design.dye, design.designOn');
+         $this->db->from('design');
+         $this->db->join('erc','design.designName = erc.desName','left');
+         $this->db->join('src','src.fabName = design.fabricName','left');
+
+  		 if(!is_array($data['cat']) ){
+  				if($data['cat']!=""){
+  				$this->db->where($data['cat'], $data['Value']);
+  			}
+
+  		}else{
+  				$count =count($data['cat']);
+  				for($i=0;$i<$count;$i++){
+  				$this->db->like($data['cat'][$i], $data['Value'][$i]);
+  			}
+  		}
+  			}
+  		    $rec=$this->db->get();
+  		 //echo $this->db->last_query($rec);exit;
+  		    return $rec->result_array();
+
+  		  }
+  //end arti
+
 
 
 
